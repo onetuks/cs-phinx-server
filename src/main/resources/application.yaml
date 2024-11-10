@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/csphinx
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/csphinx
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
@@ -24,3 +24,10 @@ spring:
       ddl-auto: none
     show-sql: true
     open-in-view: false
+
+  data:
+    mongodb:
+      uri: mongodb://${DB_HOST:localhost}:27017/csphinx
+      database: csphinx
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
