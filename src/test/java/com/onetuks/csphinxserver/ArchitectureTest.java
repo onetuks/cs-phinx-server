@@ -1,4 +1,4 @@
-package com.onetuks.threekingdomwikiserver;
+package com.onetuks.csphinxserver;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
-class ArchitectureTest extends ThreeKingdomWikiServerApplicationTests {
+class ArchitectureTest {
 
   JavaClasses javaClasses;
 

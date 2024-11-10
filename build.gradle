@@ -70,6 +70,9 @@ dependencies {
     testImplementation 'org.testcontainers:mongodb'
     testImplementation 'org.testcontainers:mysql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Arch-Unit
+    testImplementation('com.tngtech.archunit:archunit:1.2.2')
 }
 
 tasks.named('test') {
