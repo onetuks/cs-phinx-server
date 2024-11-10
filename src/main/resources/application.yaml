@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/csphinx
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    encoding: UTF-8
+    out-of-order: true
+    validate-on-migrate: true
+    connect-retries: 10
+    connect-retries-interval: 10s
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
