@@ -1,12 +1,12 @@
-package com.onetuks.csphinx;
+package com.onetuks.csphinxserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CsPhinxApplication {
+public class CsPhinxServerApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(CsPhinxApplication.class, args);
+    SpringApplication.run(CsPhinxServerApplication.class, args);
   }
 }

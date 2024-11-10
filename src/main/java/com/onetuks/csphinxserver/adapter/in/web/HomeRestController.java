@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeRestController {
 
   @GetMapping(path = "/")
-  public String test() {
+  public String getServerHealth() {
     return "Hello, this is CSphinx Server!";
   }
 }
