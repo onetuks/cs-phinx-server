@@ -1,0 +1,15 @@
+spotless {
+    java {
+        googleJavaFormat()
+
+        removeUnusedImports()
+        trimTrailingWhitespace() // 불필요 공백 트림
+        indentWithSpaces(2) // 들여쓰기
+        endWithNewline() // 파일 끝 개행
+    }
+}
+
+tasks.register("addGitPreCommitHook", Copy) {
+    from 'script/pre-commit'
+    into '.git/hooks'
+}
