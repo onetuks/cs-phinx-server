@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.application.command;
+package com.onetuks.csphinxserver.application.command.question;
 
 import com.onetuks.csphinxserver.domain.question.Category;
 import com.onetuks.csphinxserver.domain.question.Difficulty;

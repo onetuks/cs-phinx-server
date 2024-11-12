@@ -1,7 +1,7 @@
 package com.onetuks.csphinxserver.application;
 
-import com.onetuks.csphinxserver.application.command.QuestionAddCommand;
-import com.onetuks.csphinxserver.application.port.in.QuestionUseCase;
+import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.domain.question.TimeLimit;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuestionService implements QuestionUseCase {
+public class QuestionService implements QuestionUseCases {
 
   private final QuestionPort questionPort;
 

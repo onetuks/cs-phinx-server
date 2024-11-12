@@ -3,7 +3,7 @@ package com.onetuks.csphinxserver.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
-import com.onetuks.csphinxserver.application.command.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.fixture.QuestionFixture;
 import org.junit.jupiter.api.DisplayName;

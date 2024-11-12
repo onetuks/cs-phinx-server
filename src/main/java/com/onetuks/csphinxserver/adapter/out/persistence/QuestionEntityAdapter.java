@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class QuestionEntityMongoAdapter implements QuestionPort {
+public class QuestionEntityAdapter implements QuestionPort {
 
   private final QuestionEntityMongoRepository questionRepository;
   private final QuestionConverter questionConverter;
 
-  public QuestionEntityMongoAdapter(
+  public QuestionEntityAdapter(
       QuestionEntityMongoRepository questionRepository,
       QuestionConverter questionConverter) {
     this.questionRepository = questionRepository;
