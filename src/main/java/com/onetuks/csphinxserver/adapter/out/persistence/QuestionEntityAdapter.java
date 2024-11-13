@@ -4,6 +4,9 @@ import com.onetuks.csphinxserver.adapter.out.persistence.converter.QuestionConve
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.QuestionEntityMongoRepository;
 import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
+import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +30,26 @@ public class QuestionEntityAdapter implements QuestionPort {
   }
 
   @Override
+  @Transactional
   public Question read(String questionId) {
-    return null;
+    return questionConverter.toDomain(
+        questionRepository.findById(questionId).orElseThrow(NoSuchEntityException::new));
   }
 
   @Override
+  @Transactional
+  public Page<Question> readAll(Pageable pageable) {
+    return questionRepository.findAll(pageable).map(questionConverter::toDomain);
+  }
+
+  @Override
+  @Transactional
   public void update(Question question) {
 
   }
 
   @Override
+  @Transactional
   public void delete(String questionId) {
 
   }

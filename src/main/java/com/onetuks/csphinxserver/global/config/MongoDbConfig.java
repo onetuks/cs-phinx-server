@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.config;
+package com.onetuks.csphinxserver.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

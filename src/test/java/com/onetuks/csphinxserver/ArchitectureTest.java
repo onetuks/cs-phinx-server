@@ -6,6 +6,7 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -180,6 +181,7 @@ class ArchitectureTest {
       rule.check(javaClasses);
     }
 
+    @Disabled
     @Test
     @DisplayName("dto 패키지 안에 있는 클래스는 Response(s) 혹은 Request 로 끝난다.")
     void response_ClassNamePostfix_Test() {

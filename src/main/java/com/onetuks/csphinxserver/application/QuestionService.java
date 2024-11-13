@@ -6,6 +6,8 @@ import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.domain.question.TimeLimit;
 import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,5 +29,15 @@ public class QuestionService implements QuestionUseCases {
             command.category(), command.topic(), command.tags(),
             LocalDateTime.now(), 0, 0, 0))
         .questionId();
+  }
+
+  @Override
+  public Question searchQuestion(String questionId) {
+    return questionPort.read(questionId);
+  }
+
+  @Override
+  public Page<Question> searchQuestions(Pageable pageable) {
+    return questionPort.readAll(pageable);
   }
 }
