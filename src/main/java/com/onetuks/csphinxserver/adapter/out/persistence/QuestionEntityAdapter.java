@@ -8,7 +8,6 @@ import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class QuestionEntityAdapter implements QuestionPort {
@@ -24,33 +23,28 @@ public class QuestionEntityAdapter implements QuestionPort {
   }
 
   @Override
-  @Transactional
   public Question create(Question question) {
     return questionConverter.toDomain(questionRepository.save(questionConverter.toEntity(question)));
   }
 
   @Override
-  @Transactional
   public Question read(String questionId) {
     return questionConverter.toDomain(
         questionRepository.findById(questionId).orElseThrow(NoSuchEntityException::new));
   }
 
   @Override
-  @Transactional
   public Page<Question> readAll(Pageable pageable) {
     return questionRepository.findAll(pageable).map(questionConverter::toDomain);
   }
 
   @Override
-  @Transactional
   public void update(Question question) {
-
+    questionRepository.save(questionConverter.toEntityWithId(question));
   }
 
   @Override
-  @Transactional
   public void delete(String questionId) {
-
+    questionRepository.deleteById(questionId);
   }
 }

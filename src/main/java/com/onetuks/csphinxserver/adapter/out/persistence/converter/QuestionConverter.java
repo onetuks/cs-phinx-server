@@ -23,6 +23,23 @@ public class QuestionConverter {
         domain.solvedCount());
   }
 
+  public QuestionEntity toEntityWithId(Question domain) {
+    return new QuestionEntity(
+        domain.questionId(),
+        domain.title(),
+        domain.description(),
+        domain.difficulty(),
+        domain.timeLimit().seconds(),
+        domain.category(),
+        domain.topic(),
+        domain.tags(),
+        domain.updatedAt(),
+        domain.likeCount(),
+        domain.attemptCount(),
+        domain.solvedCount()
+    );
+  }
+
   public Question toDomain(QuestionEntity entity) {
     return new Question(
         entity.getId(),

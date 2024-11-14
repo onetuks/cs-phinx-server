@@ -2,12 +2,11 @@ package com.onetuks.csphinxserver.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
-import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.fixture.QuestionFixture;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
@@ -26,10 +25,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 추가한다")
   void addQuestion() {
     // Given
-    Question question = QuestionFixture.create();
-    QuestionAddCommand command = new QuestionAddCommand(
-        question.title(), question.description(), question.difficulty(),
-        question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
+    QuestionPostCommand command = QuestionFixture.createPostCommand();
 
     // When
     String result = questionService.addQuestion(command);
@@ -42,10 +38,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 조회한다.")
   void searchQuestion() {
     // Given
-    Question question = QuestionFixture.create();
-    QuestionAddCommand command = new QuestionAddCommand(
-        question.title(), question.description(), question.difficulty(),
-        question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
+    QuestionPostCommand command = QuestionFixture.createPostCommand();
     String questionId = questionService.addQuestion(command);
 
     // When
@@ -64,8 +57,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
         () -> assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now()),
         () -> assertThat(result.likeCount()).isZero(),
         () -> assertThat(result.attemptCount()).isZero(),
-        () -> assertThat(result.solvedCount()).isZero()
-    );
+        () -> assertThat(result.solvedCount()).isZero());
   }
 
   @Test
@@ -85,13 +77,8 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
     List<String> questionIds = IntStream.range(0, 5)
-        .mapToObj(i -> {
-          Question question = QuestionFixture.create();
-          QuestionAddCommand command = new QuestionAddCommand(
-              question.title(), question.description(), question.difficulty(),
-              question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
-          return questionService.addQuestion(command);
-        }).toList();
+        .mapToObj(i -> questionService.addQuestion(QuestionFixture.createPostCommand()))
+        .toList();
 
     // When
     Page<Question> questions = questionService.searchQuestions(pageable);
@@ -102,5 +89,49 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
         .toList();
 
     assertThat(results).hasSize(questionIds.size());
+  }
+  
+  @Test
+  @DisplayName("문제를 수정한다.")
+  void editQuestion() {
+    // Given
+    QuestionPostCommand postCommand = QuestionFixture.createPostCommand();
+    String questionId = questionService.addQuestion(postCommand);
+    QuestionPatchCommand command = QuestionFixture.createPatchCommand();
+
+    // When
+    questionService.editQuestion(questionId, command);
+    
+    // Then
+    Question result = questionService.searchQuestion(questionId);
+
+    assertAll(
+        () -> assertThat(result.questionId()).isEqualTo(questionId),
+        () -> assertThat(result.title()).isEqualTo(command.title()),
+        () -> assertThat(result.description()).isEqualTo(command.description()),
+        () -> assertThat(result.difficulty()).isEqualTo(command.difficulty()),
+        () -> assertThat(result.timeLimit().seconds()).isEqualTo(command.timeLimit()),
+        () -> assertThat(result.category()).isEqualTo(command.category()),
+        () -> assertThat(result.topic()).isEqualTo(command.topic()),
+        () -> assertThat(result.tags()).isEqualTo(command.tags()),
+        () -> assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now()),
+        () -> assertThat(result.likeCount()).isZero(),
+        () -> assertThat(result.attemptCount()).isZero(),
+        () -> assertThat(result.solvedCount()).isZero());
+  }
+
+  @Test
+  @DisplayName("문제를 삭제한다.")
+  void removeQuestion() {
+    // Given
+    QuestionPostCommand postCommand = QuestionFixture.createPostCommand();
+    String questionId = questionService.addQuestion(postCommand);
+
+    // When
+    questionService.removeQuestion(questionId);
+
+    // Then
+    assertThatThrownBy(() -> questionService.searchQuestion(questionId))
+        .isInstanceOf(NoSuchEntityException.class);
   }
 }

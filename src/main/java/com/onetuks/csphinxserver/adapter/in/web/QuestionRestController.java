@@ -1,7 +1,8 @@
 package com.onetuks.csphinxserver.adapter.in.web;
 
 import com.onetuks.csphinxserver.adapter.in.dto.Questions;
-import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
 import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.domain.question.Question;
 import jakarta.validation.Valid;
@@ -11,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +34,7 @@ public class QuestionRestController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewQuestion(@Valid @RequestBody QuestionAddCommand command) {
+  public ResponseEntity<String> postNewQuestion(@Valid @RequestBody QuestionPostCommand command) {
     String questionId = questionUseCases.addQuestion(command);
 
     return ResponseEntity.created(URI.create("/api/questions/" + questionId)).build();
@@ -49,5 +52,20 @@ public class QuestionRestController {
     Page<Question> questions = questionUseCases.searchQuestions(pageable);
 
     return ResponseEntity.ok(new Questions(questions));
+  }
+
+  @PatchMapping(path = "/{question-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> patchQuestion(
+      @PathVariable("question-id") String questionId, @RequestBody QuestionPatchCommand command) {
+    questionUseCases.editQuestion(questionId, command);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping(path = "/{question-id}")
+  public ResponseEntity<Void> deleteQuestion(@PathVariable("question-id") String questionId) {
+    questionUseCases.removeQuestion(questionId);
+
+    return ResponseEntity.noContent().build();
   }
 }

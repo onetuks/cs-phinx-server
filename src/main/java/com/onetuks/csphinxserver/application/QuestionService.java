@@ -1,6 +1,7 @@
 package com.onetuks.csphinxserver.application;
 
-import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
 import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QuestionService implements QuestionUseCases {
@@ -20,7 +22,8 @@ public class QuestionService implements QuestionUseCases {
   }
 
   @Override
-  public String addQuestion(QuestionAddCommand command) {
+  @Transactional
+  public String addQuestion(QuestionPostCommand command) {
     return questionPort.create(
         new Question(
             null,
@@ -32,12 +35,30 @@ public class QuestionService implements QuestionUseCases {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Question searchQuestion(String questionId) {
     return questionPort.read(questionId);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Page<Question> searchQuestions(Pageable pageable) {
     return questionPort.readAll(pageable);
+  }
+
+  @Override
+  @Transactional
+  public void editQuestion(String questionId, QuestionPatchCommand command) {
+    questionPort.update(
+        new Question(questionId,
+            command.title(), command.description(), command.difficulty(),
+            new TimeLimit(command.timeLimit()), command.category(), command.topic(), command.tags(),
+            LocalDateTime.now(), 0, 0, 0));
+  }
+
+  @Override
+  @Transactional
+  public void removeQuestion(String questionId) {
+    questionPort.delete(questionId);
   }
 }
