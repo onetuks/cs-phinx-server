@@ -5,11 +5,13 @@ import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerAdd
 import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
+import com.onetuks.csphinxserver.domain.answer.Answer;
 import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
 import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
 import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AnswerService implements AnswerUseCases {
@@ -21,6 +23,7 @@ public class AnswerService implements AnswerUseCases {
   }
 
   @Override
+  @Transactional
   public String addChoiceAnswer(ChoiceAnswerAddCommand command) {
     return answerPort.create(
             new ChoiceAnswer(
@@ -29,6 +32,7 @@ public class AnswerService implements AnswerUseCases {
   }
 
   @Override
+  @Transactional
   public String addShortAnswer(ShortAnswerAddCommand command) {
     return answerPort.create(
             new ShortAnswer(
@@ -37,10 +41,29 @@ public class AnswerService implements AnswerUseCases {
   }
 
   @Override
+  @Transactional
   public String addDescriptiveAnswer(DescriptiveAnswerAddCommand command) {
     return answerPort.create(
             new DescriptiveAnswer(
                 null, command.questionId(), command.embeddedVector(), LocalDateTime.now()))
         .answerId();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Answer searchChoiceAnswer(String answerId) {
+    return answerPort.readChoice(answerId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Answer searchShortAnswer(String answerId) {
+    return answerPort.readShort(answerId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Answer searchDescriptiveAnswer(String answerId) {
+    return answerPort.readDescriptive(answerId);
   }
 }

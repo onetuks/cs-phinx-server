@@ -4,10 +4,13 @@ import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddComma
 import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerAddCommand;
 import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
+import com.onetuks.csphinxserver.domain.answer.Answer;
 import jakarta.validation.Valid;
 import java.net.URI;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +54,26 @@ public class AnswerRestController {
     String answerId = answerUseCases.addDescriptiveAnswer(command);
 
     return ResponseEntity.created(URI.create("/api/answers/descriptions/" + answerId)).build();
+  }
+
+  @GetMapping(path = "/choices/{answer-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Answer> getChoiceAnswer(@PathVariable("answer-id") String answerId) {
+    Answer answer = answerUseCases.searchChoiceAnswer(answerId);
+
+    return ResponseEntity.ok(answer);
+  }
+
+  @GetMapping(path = "/shorts/{answer-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Answer> getShortAnswer(@PathVariable("answer-id") String answerId) {
+    Answer answer = answerUseCases.searchShortAnswer(answerId);
+
+    return ResponseEntity.ok(answer);
+  }
+
+  @GetMapping(path = "/descriptions/{answer-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Answer> getDescriptiveAnswer(@PathVariable("answer-id") String answerId) {
+    Answer answer = answerUseCases.searchDescriptiveAnswer(answerId);
+
+    return ResponseEntity.ok(answer);
   }
 }

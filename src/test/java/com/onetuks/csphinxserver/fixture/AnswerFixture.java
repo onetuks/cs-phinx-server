@@ -1,5 +1,8 @@
 package com.onetuks.csphinxserver.fixture;
 
+import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddCommand;
+import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerAddCommand;
+import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
 import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
 import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
 import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
@@ -24,6 +27,19 @@ public class AnswerFixture {
 
   public static DescriptiveAnswer createDescriptiveAnswer(String questionId) {
     return new DescriptiveAnswer(null, questionId, createEmbeddedVector(), LocalDateTime.now());
+  }
+
+  public static ChoiceAnswerAddCommand createChoiceCommand(String questionId) {
+    return new ChoiceAnswerAddCommand(questionId, createChoiceAnswer(questionId).answerNumber());
+  }
+
+  public static ShortAnswerAddCommand createShortCommand(String questionId) {
+    return new ShortAnswerAddCommand(questionId, createShortAnswer(questionId).answerWords());
+  }
+
+  public static DescriptiveAnswerAddCommand createDescriptiveCommand(String questionId) {
+    return new DescriptiveAnswerAddCommand(
+        questionId, createDescriptiveAnswer(questionId).embeddedVector());
   }
 
   private static String createAnswerNumber() {

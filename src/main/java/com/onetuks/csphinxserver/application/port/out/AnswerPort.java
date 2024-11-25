@@ -8,7 +8,11 @@ public interface AnswerPort {
 
   Answer create(Answer answer);
 
-  Answer read(String answerId);
+  Answer readChoice(String answerId);
+
+  Answer readShort(String answerId);
+
+  Answer readDescriptive(String answerId);
 
   void update(Answer answer);
 

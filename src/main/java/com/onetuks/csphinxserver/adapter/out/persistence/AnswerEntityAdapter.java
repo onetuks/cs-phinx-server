@@ -9,6 +9,7 @@ import com.onetuks.csphinxserver.domain.answer.Answer;
 import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
 import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
 import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
+import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -46,8 +47,24 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public Answer read(String answerId) {
-    return null;
+  public Answer readChoice(String answerId) {
+    return choiceAnswerRepository.findById(answerId)
+        .map(answerConverter::toDomain)
+        .orElseThrow(NoSuchEntityException::new);
+  }
+
+  @Override
+  public Answer readShort(String answerId) {
+    return shortAnswerRepository.findById(answerId)
+        .map(answerConverter::toDomain)
+        .orElseThrow(NoSuchEntityException::new);
+  }
+
+  @Override
+  public Answer readDescriptive(String answerId) {
+    return descriptiveAnswerRepository.findById(answerId)
+        .map(answerConverter::toDomain)
+        .orElseThrow(NoSuchEntityException::new);
   }
 
   @Override
