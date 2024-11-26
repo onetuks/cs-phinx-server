@@ -1,27 +1,32 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 
-import jakarta.persistence.Id;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(collection = "short_answers")
-public class ShortAnswerEntity {
+@TypeAlias(value = "shortAnswerEntity")
+public class ShortAnswerEntity extends AnswerEntity {
 
-  @Id
-  private String id;
-  private String questionId;
-  private Set<String> answerWords;
-  private LocalDateTime updatedAt;
+  private Set<String> value;
 
-  public ShortAnswerEntity(String questionId, Set<String> answerWords, LocalDateTime updatedAt) {
-    this.questionId = questionId;
-    this.answerWords = answerWords;
-    this.updatedAt = updatedAt;
+  public ShortAnswerEntity(
+      String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
+    super(id, questionId, answerType, updatedAt);
+    this.value = convertValueType(value);
+  }
+
+  private Set<String> convertValueType(Object value) {
+    if (!(value instanceof Set<?>)) {
+      throw new IllegalArgumentException("Value is not a set of values");
+    }
+
+    return (Set<String>) value;
   }
 }

@@ -54,6 +54,8 @@ class ArchitectureTest {
           ArchRuleDefinition.classes()
               .that()
               .resideInAnyPackage("..converter")
+              .and()
+              .areNotAnonymousClasses()
               .should()
               .haveSimpleNameEndingWith("Converter")
               .andShould()

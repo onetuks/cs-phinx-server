@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
-import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
-import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.fixture.QuestionFixture;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
@@ -25,7 +25,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 추가한다")
   void addQuestion() {
     // Given
-    QuestionPostCommand command = QuestionFixture.createPostCommand();
+    QuestionAddCommand command = QuestionFixture.createPostCommand();
 
     // When
     String result = questionService.addQuestion(command);
@@ -38,7 +38,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 조회한다.")
   void searchQuestion() {
     // Given
-    QuestionPostCommand command = QuestionFixture.createPostCommand();
+    QuestionAddCommand command = QuestionFixture.createPostCommand();
     String questionId = questionService.addQuestion(command);
 
     // When
@@ -95,9 +95,9 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 수정한다.")
   void editQuestion() {
     // Given
-    QuestionPostCommand postCommand = QuestionFixture.createPostCommand();
+    QuestionAddCommand postCommand = QuestionFixture.createPostCommand();
     String questionId = questionService.addQuestion(postCommand);
-    QuestionPatchCommand command = QuestionFixture.createPatchCommand();
+    QuestionEditCommand command = QuestionFixture.createPatchCommand();
 
     // When
     questionService.editQuestion(questionId, command);
@@ -124,7 +124,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 삭제한다.")
   void removeQuestion() {
     // Given
-    QuestionPostCommand postCommand = QuestionFixture.createPostCommand();
+    QuestionAddCommand postCommand = QuestionFixture.createPostCommand();
     String questionId = questionService.addQuestion(postCommand);
 
     // When

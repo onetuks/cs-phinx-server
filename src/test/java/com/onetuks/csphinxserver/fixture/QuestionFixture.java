@@ -1,7 +1,7 @@
 package com.onetuks.csphinxserver.fixture;
 
-import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
-import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
 import com.onetuks.csphinxserver.domain.question.Category;
 import com.onetuks.csphinxserver.domain.question.Difficulty;
 import com.onetuks.csphinxserver.domain.question.Question;
@@ -30,16 +30,16 @@ public class QuestionFixture {
         createUpdatedAt(), createLikeCount(), createAttemptCount(), createSolvedCount());
   }
 
-  public static QuestionPostCommand createPostCommand() {
+  public static QuestionAddCommand createPostCommand() {
     Question question = create();
-    return new QuestionPostCommand(
+    return new QuestionAddCommand(
         question.title(), question.description(), question.difficulty(),
         question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
   }
 
-  public static QuestionPatchCommand createPatchCommand() {
+  public static QuestionEditCommand createPatchCommand() {
     Question question = create();
-    return new QuestionPatchCommand(
+    return new QuestionEditCommand(
         question.title(), question.description(), question.difficulty(),
         question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
   }

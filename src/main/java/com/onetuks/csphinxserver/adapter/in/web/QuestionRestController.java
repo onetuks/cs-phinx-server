@@ -1,8 +1,8 @@
 package com.onetuks.csphinxserver.adapter.in.web;
 
 import com.onetuks.csphinxserver.adapter.in.dto.Questions;
-import com.onetuks.csphinxserver.application.command.question.QuestionPatchCommand;
-import com.onetuks.csphinxserver.application.command.question.QuestionPostCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
 import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.domain.question.Question;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class QuestionRestController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewQuestion(@Valid @RequestBody QuestionPostCommand command) {
+  public ResponseEntity<String> postNewQuestion(@Valid @RequestBody QuestionAddCommand command) {
     String questionId = questionUseCases.addQuestion(command);
 
     return ResponseEntity.created(URI.create("/api/questions/" + questionId)).build();
@@ -56,7 +56,7 @@ public class QuestionRestController {
 
   @PatchMapping(path = "/{question-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> patchQuestion(
-      @PathVariable("question-id") String questionId, @RequestBody QuestionPatchCommand command) {
+      @PathVariable("question-id") String questionId, @RequestBody QuestionEditCommand command) {
     questionUseCases.editQuestion(questionId, command);
 
     return ResponseEntity.noContent().build();

@@ -1,26 +1,30 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 
-import jakarta.persistence.Id;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(collection = "choice_answers")
-public class ChoiceAnswerEntity {
+@TypeAlias(value = "choiceAnswerEntity")
+public class ChoiceAnswerEntity extends AnswerEntity {
 
-  @Id
-  private String id;
-  private String questionId;
-  private String answerNumber;
-  private LocalDateTime updatedAt;
+  private String value;
 
-  public ChoiceAnswerEntity(String questionId, String answerNumber, LocalDateTime updatedAt) {
-    this.questionId = questionId;
-    this.answerNumber = answerNumber;
-    this.updatedAt = updatedAt;
+  public ChoiceAnswerEntity(String id, String questionId, AnswerType answerType,
+      Object value, LocalDateTime updatedAt) {
+    super(id, questionId, answerType, updatedAt);
+    this.value = convertValueType(value);
+  }
+
+  private String convertValueType(Object value) {
+    if (!(value instanceof String)) {
+      throw new IllegalArgumentException("Choice Value is must be String");
+    }
+
+    return (String) value;
   }
 }

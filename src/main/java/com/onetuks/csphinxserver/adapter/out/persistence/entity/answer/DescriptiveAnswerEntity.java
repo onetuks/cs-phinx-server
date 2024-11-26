@@ -1,28 +1,31 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 
-import jakarta.persistence.Id;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(collection = "descriptive_answers")
-public class DescriptiveAnswerEntity {
+@TypeAlias(value = "descriptiveAnswerEntity")
+public class DescriptiveAnswerEntity extends AnswerEntity {
 
-  @Id
-  private String id;
-  private String questionId;
-  private List<Double> embeddedVector;
-  private LocalDateTime updatedAt;
+  private List<Double> value;
 
-  public DescriptiveAnswerEntity(String questionId, List<Double> embeddedVector,
-      LocalDateTime updatedAt) {
-    this.questionId = questionId;
-    this.embeddedVector = embeddedVector;
-    this.updatedAt = updatedAt;
+  public DescriptiveAnswerEntity(
+      String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
+    super(id, questionId, answerType, updatedAt);
+    this.value = convertValueType(value);
+  }
+
+  private List<Double> convertValueType(Object value) {
+    if (!(value instanceof List<?>)) {
+      throw new IllegalArgumentException("Value is not a list");
+    }
+
+    return (List<Double>) value;
   }
 }
