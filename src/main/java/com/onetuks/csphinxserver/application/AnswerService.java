@@ -58,20 +58,8 @@ public class AnswerService implements AnswerUseCases {
 
   @Override
   @Transactional(readOnly = true)
-  public Answer searchChoiceAnswer(String answerId) {
-    return answerPort.readChoice(answerId);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Answer searchShortAnswer(String answerId) {
-    return answerPort.readShort(answerId);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Answer searchDescriptiveAnswer(String answerId) {
-    return answerPort.readDescriptive(answerId);
+  public Answer searchAnswers(String questionId) {
+    return answerPort.read(questionId);
   }
 
   @Override

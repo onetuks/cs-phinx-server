@@ -4,9 +4,6 @@ import com.onetuks.csphinxserver.adapter.out.persistence.converter.AnswerConvert
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityMongoRepository;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
-import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
-import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
-import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.stereotype.Repository;
 
@@ -28,22 +25,8 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public Answer readChoice(String answerId) {
-    return answerRepository.findById(answerId)
-        .map(answerConverter::toDomain)
-        .orElseThrow(NoSuchEntityException::new);
-  }
-
-  @Override
-  public Answer readShort(String answerId) {
-    return answerRepository.findById(answerId)
-        .map(answerConverter::toDomain)
-        .orElseThrow(NoSuchEntityException::new);
-  }
-
-  @Override
-  public Answer readDescriptive(String answerId) {
-    return answerRepository.findById(answerId)
+  public Answer read(String questionId) {
+    return answerRepository.findByQuestionId(questionId)
         .map(answerConverter::toDomain)
         .orElseThrow(NoSuchEntityException::new);
   }

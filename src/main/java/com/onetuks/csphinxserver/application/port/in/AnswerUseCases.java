@@ -16,11 +16,7 @@ public interface AnswerUseCases {
 
   String addDescriptiveAnswer(DescriptiveAnswerAddCommand command);
 
-  Answer searchChoiceAnswer(String answerId);
-
-  Answer searchShortAnswer(String answerId);
-
-  Answer searchDescriptiveAnswer(String answerId);
+  Answer searchAnswers(String questionId);
 
   void editChoiceAnswer(String answerId, ChoiceAnswerEditCommand command);
 

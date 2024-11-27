@@ -13,7 +13,7 @@ import org.springframework.data.annotation.TypeAlias;
 @TypeAlias(value = "descriptiveAnswerEntity")
 public class DescriptiveAnswerEntity extends AnswerEntity {
 
-  private List<Double> value;
+  private List<List<Double>> value;
 
   public DescriptiveAnswerEntity(
       String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
@@ -21,11 +21,11 @@ public class DescriptiveAnswerEntity extends AnswerEntity {
     this.value = convertValueType(value);
   }
 
-  private List<Double> convertValueType(Object value) {
+  private List<List<Double>> convertValueType(Object value) {
     if (!(value instanceof List<?>)) {
       throw new IllegalArgumentException("Value is not a list");
     }
 
-    return (List<Double>) value;
+    return (List<List<Double>>) value;
   }
 }
