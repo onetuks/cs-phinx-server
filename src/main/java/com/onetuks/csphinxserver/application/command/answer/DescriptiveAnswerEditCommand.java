@@ -1,5 +1,5 @@
 package com.onetuks.csphinxserver.application.command.answer;
 
-import java.util.List;
+import com.onetuks.csphinxserver.domain.answer.EmbeddingValue;
 
-public record DescriptiveAnswerEditCommand(String questionId, List<Double> embeddedVector) {}
+public record DescriptiveAnswerEditCommand(String questionId, EmbeddingValue embeddingValue) {}

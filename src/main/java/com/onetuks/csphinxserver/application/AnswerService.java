@@ -14,6 +14,7 @@ import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
 import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
 import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class AnswerService implements AnswerUseCases {
     return answerPort.create(
             new ShortAnswer(
                 null, command.questionId(),
-                AnswerType.SHORT, command.answerWords(), LocalDateTime.now()))
+                AnswerType.SHORT, command.answerWord(), LocalDateTime.now()))
         .answerId();
   }
 
@@ -52,13 +53,13 @@ public class AnswerService implements AnswerUseCases {
     return answerPort.create(
             new DescriptiveAnswer(
                 null, command.questionId(),
-                AnswerType.DESCRIPTION, command.embeddedVector(), LocalDateTime.now()))
+                AnswerType.DESCRIPTION, command.embeddingValue(), LocalDateTime.now()))
         .answerId();
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Answer searchAnswers(String questionId) {
+  public List<Answer> searchAnswers(String questionId) {
     return answerPort.read(questionId);
   }
 
@@ -77,7 +78,7 @@ public class AnswerService implements AnswerUseCases {
     answerPort.update(
         new ShortAnswer(
             answerId, command.questionId(),
-            AnswerType.SHORT, command.answerWords(), LocalDateTime.now()));
+            AnswerType.SHORT, command.answerWord(), LocalDateTime.now()));
   }
 
   @Override
@@ -86,6 +87,6 @@ public class AnswerService implements AnswerUseCases {
     answerPort.update(
         new DescriptiveAnswer(
             answerId, command.questionId(),
-            AnswerType.DESCRIPTION, command.embeddedVector(), LocalDateTime.now()));
+            AnswerType.DESCRIPTION, command.embeddingValue(), LocalDateTime.now()));
   }
 }

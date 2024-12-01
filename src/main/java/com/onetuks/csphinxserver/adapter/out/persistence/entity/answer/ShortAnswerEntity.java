@@ -2,9 +2,7 @@ package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
-import java.util.Set;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.TypeAlias;
@@ -14,7 +12,7 @@ import org.springframework.data.annotation.TypeAlias;
 @TypeAlias(value = "shortAnswerEntity")
 public class ShortAnswerEntity extends AnswerEntity {
 
-  private Set<String> value;
+  private String value;
 
   public ShortAnswerEntity(
       String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
@@ -22,11 +20,11 @@ public class ShortAnswerEntity extends AnswerEntity {
     this.value = convertValueType(value);
   }
 
-  private Set<String> convertValueType(Object value) {
-    if (!(value instanceof Set<?>)) {
+  private String convertValueType(Object value) {
+    if (!(value instanceof String)) {
       throw new IllegalArgumentException("Value is not a set of values");
     }
 
-    return (Set<String>) value;
+    return (String) value;
   }
 }

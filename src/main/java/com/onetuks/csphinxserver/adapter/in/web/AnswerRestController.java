@@ -1,5 +1,6 @@
 package com.onetuks.csphinxserver.adapter.in.web;
 
+import com.onetuks.csphinxserver.adapter.in.dto.Answers;
 import com.onetuks.csphinxserver.application.AnswerService;
 import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddCommand;
 import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerEditCommand;
@@ -11,6 +12,7 @@ import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.domain.answer.Answer;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,10 +67,10 @@ public class AnswerRestController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Answer> getAnswers(@RequestParam("question-id") String questionId) {
-    Answer answer = answerUseCases.searchAnswers(questionId);
+  public ResponseEntity<Answers> getAnswers(@RequestParam("question-id") String questionId) {
+    List<Answer> answers = answerUseCases.searchAnswers(questionId);
 
-    return ResponseEntity.ok(answer);
+    return ResponseEntity.ok(new Answers(answers));
   }
 
   @PatchMapping(path = "/choices/{answer-id}", consumes = MediaType.APPLICATION_JSON_VALUE)

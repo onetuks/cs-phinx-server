@@ -1,15 +1,15 @@
 package com.onetuks.csphinxserver.domain.answer;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Objects;
 
 public class DescriptiveAnswer extends Answer {
 
-  private final List<Double> value;
+  private final EmbeddingValue value;
 
   public DescriptiveAnswer(
       String answerId, String questionId,
-      AnswerType answerType, List<Double> value, LocalDateTime updatedAt) {
+      AnswerType answerType, EmbeddingValue value, LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = value;
   }
@@ -21,15 +21,15 @@ public class DescriptiveAnswer extends Answer {
     this.value = convertValueType(value);
   }
 
-  public List<Double> value() {
+  public EmbeddingValue value() {
     return value;
   }
 
-  private List<Double> convertValueType(Object value) {
-    if (!(value instanceof List<?>)) {
-      throw new IllegalArgumentException("Value is not a list");
+  private EmbeddingValue convertValueType(Object value) {
+    if (!(value instanceof EmbeddingValue)) {
+      throw new IllegalArgumentException("Value is not a EmbeddingValue");
     }
 
-    return (List<Double>) value;
+    return (EmbeddingValue) value;
   }
 }

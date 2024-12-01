@@ -1,6 +1,7 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
+import com.onetuks.csphinxserver.domain.answer.EmbeddingValue;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import org.springframework.data.annotation.TypeAlias;
 @TypeAlias(value = "descriptiveAnswerEntity")
 public class DescriptiveAnswerEntity extends AnswerEntity {
 
-  private List<List<Double>> value;
+  private EmbeddingValue value;
 
   public DescriptiveAnswerEntity(
       String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
@@ -21,11 +22,11 @@ public class DescriptiveAnswerEntity extends AnswerEntity {
     this.value = convertValueType(value);
   }
 
-  private List<List<Double>> convertValueType(Object value) {
-    if (!(value instanceof List<?>)) {
-      throw new IllegalArgumentException("Value is not a list");
+  private EmbeddingValue convertValueType(Object value) {
+    if (!(value instanceof EmbeddingValue)) {
+      throw new IllegalArgumentException("Value is not a embedding value");
     }
 
-    return (List<List<Double>>) value;
+    return (EmbeddingValue) value;
   }
 }

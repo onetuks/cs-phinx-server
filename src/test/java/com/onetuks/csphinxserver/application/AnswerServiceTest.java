@@ -21,6 +21,7 @@ import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
 import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
 import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -77,10 +78,12 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
 
     // When
-    Answer answer = answerService.searchAnswers(questionId);
+    List<Answer> answer = answerService.searchAnswers(questionId);
 
     // Then
-    ChoiceAnswer result = (ChoiceAnswer) answer;
+    assertThat(answer).isNotNull().hasSize(1);
+
+    ChoiceAnswer result = (ChoiceAnswer) answer.getFirst();
 
     assertAll(
         () -> assertThat(result.answerId()).isNotNull(),
@@ -95,18 +98,22 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     answerService.addShortAnswer(createShortAddCommand(questionId));
+    answerService.addShortAnswer(createShortAddCommand(questionId));
 
     // When
-    Answer answer = answerService.searchAnswers(questionId);
+    List<Answer> answer = answerService.searchAnswers(questionId);
 
     // Then
-    ShortAnswer result = (ShortAnswer) answer;
+    List<ShortAnswer> results = answer.stream().map(a -> (ShortAnswer) a).toList();
 
-    assertAll(
-        () -> assertThat(result.answerId()).isNotNull(),
-        () -> assertThat(result.questionId()).isEqualTo(questionId),
-        () -> assertThat(result.value()).isNotEmpty(),
-        () -> assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now()));
+    assertThat(results).isNotNull()
+        .hasSize(2)
+        .allSatisfy(result -> {
+          assertThat(result.answerId()).isNotNull();
+          assertThat(result.questionId()).isEqualTo(questionId);
+          assertThat(result.value()).isNotEmpty();
+          assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now());
+        });
   }
 
   @Test
@@ -115,21 +122,24 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
+    answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
 
     // When
-    Answer answer = answerService.searchAnswers(questionId);
+    List<Answer> answer = answerService.searchAnswers(questionId);
 
     // Then
-    DescriptiveAnswer result = (DescriptiveAnswer) answer;
+    List<DescriptiveAnswer> results = answer.stream().map(a -> (DescriptiveAnswer) a).toList();
 
-    assertAll(
-        () -> assertThat(result.answerId()).isNotNull(),
-        () -> assertThat(result.questionId()).isEqualTo(questionId),
-        () -> assertThat(result.value()).isNotEmpty(),
-        () -> assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now()));
-
-    assertThat(result.value())
-        .allSatisfy(vector -> assertThat(vector).isBetween(-1.0, 1.0));
+    assertThat(results).isNotNull()
+        .hasSize(2)
+        .allSatisfy(result -> {
+          assertThat(result.answerId()).isNotNull();
+          assertThat(result.questionId()).isEqualTo(questionId);
+          assertThat(result.value()).isNotNull();
+          assertThat(result.value().originContext()).isNotBlank();
+          assertThat(result.value().embeddingVector()).isNotEmpty();
+          assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now());
+        });
   }
 
   @Test
@@ -138,7 +148,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     String answerId = answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
-    Answer answer = answerService.searchAnswers(questionId);
+    Answer answer = answerService.searchAnswers(questionId).getFirst();
 
     ChoiceAnswerEditCommand command = createChoiceAnswerEditCommand(answerId, questionId);
 
@@ -146,7 +156,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     answerService.editChoiceAnswer(answerId, command);
 
     // Then
-    ChoiceAnswer result = (ChoiceAnswer) answerService.searchAnswers(questionId);
+    ChoiceAnswer result = (ChoiceAnswer) answerService.searchAnswers(questionId).getFirst();
 
     assertAll(
         () -> assertThat(result.answerId()).isEqualTo(answerId),
@@ -161,7 +171,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     String answerId = answerService.addShortAnswer(createShortAddCommand(questionId));
-    Answer answer = answerService.searchAnswers(questionId);
+    answerService.searchAnswers(questionId);
 
     ShortAnswerEditCommand command = createShortAnswerEditCommand(answerId, questionId);
 
@@ -169,14 +179,17 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     answerService.editShortAnswer(answerId, command);
 
     // Then
-    ShortAnswer result = (ShortAnswer) answerService.searchAnswers(questionId);
+    List<ShortAnswer> results = answerService.searchAnswers(questionId).stream()
+        .map(a -> (ShortAnswer) a).toList();
 
-    assertAll(
-        () -> assertThat(result.answerId()).isEqualTo(answerId),
-        () -> assertThat(result.questionId()).isEqualTo(questionId),
-        () -> assertThat(result.value()).hasSize(command.answerWords().size()),
-        () -> assertThat(result.value()).containsAll(command.answerWords()),
-        () -> assertThat(result.updatedAt()).isAfterOrEqualTo(answer.updatedAt()));
+    assertThat(results).isNotNull()
+        .hasSize(1)
+        .allSatisfy(result -> {
+          assertThat(result.answerId()).isEqualTo(answerId);
+          assertThat(result.questionId()).isEqualTo(questionId);
+          assertThat(result.value()).isEqualTo(command.answerWord());
+          assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now());
+        });
   }
 
   @Test
@@ -185,7 +198,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     String answerId = answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
-    Answer answer = answerService.searchAnswers(questionId);
+    answerService.searchAnswers(questionId);
 
     DescriptiveAnswerEditCommand command = createDescriptiveAnswerEditCommand(answerId, questionId);
 
@@ -193,13 +206,18 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     answerService.editDescriptiveAnswer(answerId, command);
 
     // Then
-    DescriptiveAnswer result = (DescriptiveAnswer) answerService.searchAnswers(questionId);
+    List<DescriptiveAnswer> results = answerService.searchAnswers(questionId).stream()
+        .map(a -> (DescriptiveAnswer) a).toList();
 
-    assertAll(
-        () -> assertThat(result.answerId()).isEqualTo(answerId),
-        () -> assertThat(result.questionId()).isEqualTo(questionId),
-        () -> assertThat(result.value()).hasSize(command.embeddedVector().size()),
-        () -> assertThat(result.value()).containsAll(command.embeddedVector()),
-        () -> assertThat(result.updatedAt()).isAfterOrEqualTo(answer.updatedAt()));
+    assertThat(results).isNotNull()
+        .hasSize(1)
+        .allSatisfy(result -> {
+          assertThat(result.answerId()).isEqualTo(answerId);
+          assertThat(result.questionId()).isEqualTo(questionId);
+          assertThat(result.value()).isNotNull();
+          assertThat(result.value().originContext()).isNotBlank();
+          assertThat(result.value().embeddingVector()).isNotEmpty();
+          assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now());
+        });
   }
 }

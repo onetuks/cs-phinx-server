@@ -7,6 +7,7 @@ import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerEdi
 import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
 import com.onetuks.csphinxserver.application.command.answer.ShortAnswerEditCommand;
 import com.onetuks.csphinxserver.domain.answer.Answer;
+import java.util.List;
 
 public interface AnswerUseCases {
 
@@ -16,7 +17,7 @@ public interface AnswerUseCases {
 
   String addDescriptiveAnswer(DescriptiveAnswerAddCommand command);
 
-  Answer searchAnswers(String questionId);
+  List<Answer> searchAnswers(String questionId);
 
   void editChoiceAnswer(String answerId, ChoiceAnswerEditCommand command);
 

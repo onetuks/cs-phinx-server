@@ -5,11 +5,11 @@ import java.util.Set;
 
 public class ShortAnswer extends Answer {
 
-  private final Set<String> value;
+  private final String value;
 
   public ShortAnswer(
       String answerId, String questionId,
-      AnswerType answerType, Set<String> value, LocalDateTime updatedAt) {
+      AnswerType answerType, String value, LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = value;
   }
@@ -21,15 +21,15 @@ public class ShortAnswer extends Answer {
     this.value = convertValueType(value);
   }
 
-  public Set<String> value() {
+  public String value() {
     return value;
   }
 
-  private Set<String> convertValueType(Object value) {
-    if (!(value instanceof Set<?>)) {
+  private String convertValueType(Object value) {
+    if (!(value instanceof String)) {
       throw new IllegalArgumentException("Value must be a set of strings");
     }
 
-    return (Set<String>) value;
+    return (String) value;
   }
 }
