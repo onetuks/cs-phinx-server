@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,6 +95,13 @@ public class AnswerRestController {
       @PathVariable("answer-id") String answerId, @RequestBody DescriptiveAnswerEditCommand command
   ) {
     answerService.editDescriptiveAnswer(answerId, command);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping(path = "/{answer-id}")
+  public ResponseEntity<Void> deleteAnswer(@PathVariable("answer-id") String answerId) {
+    answerService.removeAnswer(answerId);
 
     return ResponseEntity.noContent().build();
   }

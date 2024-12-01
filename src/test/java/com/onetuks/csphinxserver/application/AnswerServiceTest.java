@@ -171,7 +171,6 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     String answerId = answerService.addShortAnswer(createShortAddCommand(questionId));
-    answerService.searchAnswers(questionId);
 
     ShortAnswerEditCommand command = createShortAnswerEditCommand(answerId, questionId);
 
@@ -198,7 +197,6 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
     // Given
     String questionId = UUID.randomUUID().toString();
     String answerId = answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
-    answerService.searchAnswers(questionId);
 
     DescriptiveAnswerEditCommand command = createDescriptiveAnswerEditCommand(answerId, questionId);
 
@@ -219,5 +217,21 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
           assertThat(result.value().embeddingVector()).isNotEmpty();
           assertThat(result.updatedAt()).isBeforeOrEqualTo(LocalDateTime.now());
         });
+  }
+
+  @Test
+  @DisplayName("답안을 제거한다.")
+  void removeAnswerTest() {
+    // Given
+    String questionId = UUID.randomUUID().toString();
+    String answerId = answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
+
+    // When
+    answerService.removeAnswer(answerId);
+
+    // Then
+    List<Answer> results = answerService.searchAnswers(questionId);
+
+    assertThat(results).isNotNull().hasSize(0);
   }
 }

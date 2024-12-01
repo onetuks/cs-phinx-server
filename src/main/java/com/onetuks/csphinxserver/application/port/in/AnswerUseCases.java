@@ -24,4 +24,6 @@ public interface AnswerUseCases {
   void editShortAnswer(String answerId, ShortAnswerEditCommand command);
 
   void editDescriptiveAnswer(String answerId, DescriptiveAnswerEditCommand command);
+
+  void removeAnswer(String answerId);
 }

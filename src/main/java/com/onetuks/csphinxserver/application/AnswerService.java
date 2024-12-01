@@ -89,4 +89,9 @@ public class AnswerService implements AnswerUseCases {
             answerId, command.questionId(),
             AnswerType.DESCRIPTION, command.embeddingValue(), LocalDateTime.now()));
   }
+
+  @Override
+  public void removeAnswer(String answerId) {
+    answerPort.delete(answerId);
+  }
 }
