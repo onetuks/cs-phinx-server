@@ -5,6 +5,8 @@ import com.onetuks.csphinxserver.adapter.out.persistence.repository.CollectionEn
 import com.onetuks.csphinxserver.application.port.out.CollectionPort;
 import com.onetuks.csphinxserver.domain.question.Collection;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,6 +32,11 @@ public class CollectionEntityAdapter implements CollectionPort {
   public Collection read(String collectionId) {
     return collectionConverter.toDomain(
         collectionRepository.findById(collectionId).orElseThrow(NoSuchEntityException::new));
+  }
+
+  @Override
+  public Page<Collection> readAll(Pageable pageable) {
+    return collectionRepository.findAll(pageable).map(collectionConverter::toDomain);
   }
 
   @Override

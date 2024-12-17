@@ -4,6 +4,8 @@ import com.onetuks.csphinxserver.application.command.question.CollectionAddComma
 import com.onetuks.csphinxserver.application.port.in.CollectionUseCases;
 import com.onetuks.csphinxserver.application.port.out.CollectionPort;
 import com.onetuks.csphinxserver.domain.question.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,5 +33,10 @@ public class CollectionService implements CollectionUseCases {
   @Transactional(readOnly = true)
   public Collection searchCollection(String collectionId) {
     return collectionPort.read(collectionId);
+  }
+
+  @Override
+  public Page<Collection> searchAllCollections(Pageable pageable) {
+    return collectionPort.readAll(pageable);
   }
 }
