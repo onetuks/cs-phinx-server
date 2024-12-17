@@ -7,7 +7,6 @@ echo "Apply Spotless.."
 
 for file in $targetFiles; do
   if test -f "$file"; then
-    # shellcheck disable=SC2086
     git add $file
   fi
 done

@@ -6,4 +6,6 @@ import com.onetuks.csphinxserver.domain.question.Collection;
 public interface CollectionUseCases {
 
   Collection addCollection(CollectionAddCommand command);
+
+  Collection searchCollection(String collectionId);
 }
