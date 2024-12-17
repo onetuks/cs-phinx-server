@@ -1,6 +1,7 @@
 package com.onetuks.csphinxserver.fixture;
 
 import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
 import com.onetuks.csphinxserver.domain.question.Collection;
 import com.onetuks.csphinxserver.domain.question.CollectionType;
 import java.util.List;
@@ -21,6 +22,11 @@ public class CollectionFixture {
 
   public static CollectionAddCommand createCollectionAddCommand(String... questionIds) {
     return new CollectionAddCommand(
+        createCollectionName(), createCollectionType(), Set.of(questionIds));
+  }
+
+  public static CollectionEditCommand createCollectionEditCommand(String... questionIds) {
+    return new CollectionEditCommand(
         createCollectionName(), createCollectionType(), Set.of(questionIds));
   }
 

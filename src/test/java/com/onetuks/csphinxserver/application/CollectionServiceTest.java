@@ -1,11 +1,13 @@
 package com.onetuks.csphinxserver.application;
 
 import static com.onetuks.csphinxserver.fixture.CollectionFixture.createCollectionAddCommand;
+import static com.onetuks.csphinxserver.fixture.CollectionFixture.createCollectionEditCommand;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
 import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
 import com.onetuks.csphinxserver.domain.question.Collection;
 import com.onetuks.csphinxserver.domain.question.CollectionType;
 import java.util.List;
@@ -101,5 +103,28 @@ class CollectionServiceTest extends CsPhinxServerApplicationTests {
               assertThat(result.collectionName()).isNotBlank();
               assertThat(result.collectionType()).isInstanceOf(CollectionType.class);
             });
+  }
+
+  @Test
+  @DisplayName("모음집을 수정한다.")
+  void editCollectionTest() {
+    // Given
+    CollectionEditCommand command =
+        createCollectionEditCommand(
+            INCLUDED_QUESTION_IDS.getFirst(), INCLUDED_QUESTION_IDS.getLast());
+
+    // When
+    collectionService.editCollection(collection.collectionId(), command);
+
+    // Then
+    Collection result = collectionService.searchCollection(collection.collectionId());
+
+    assertAll(
+        () -> assertThat(result.collectionId()).isEqualTo(collection.collectionId()),
+        () -> assertThat(result.collectionName()).isEqualTo(command.collectionName()),
+        () -> assertThat(result.collectionType()).isEqualTo(command.collectionType()),
+        () ->
+            assertThat(result.includedQuestionIds())
+                .containsExactlyElementsOf(command.includedQuestionIds()));
   }
 }

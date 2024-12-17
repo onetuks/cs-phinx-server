@@ -1,6 +1,7 @@
 package com.onetuks.csphinxserver.application;
 
 import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
 import com.onetuks.csphinxserver.application.port.in.CollectionUseCases;
 import com.onetuks.csphinxserver.application.port.out.CollectionPort;
 import com.onetuks.csphinxserver.domain.question.Collection;
@@ -36,7 +37,19 @@ public class CollectionService implements CollectionUseCases {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Page<Collection> searchAllCollections(Pageable pageable) {
     return collectionPort.readAll(pageable);
+  }
+
+  @Override
+  @Transactional
+  public void editCollection(String collectionId, CollectionEditCommand command) {
+    collectionPort.update(
+        new Collection(
+            collectionId,
+            command.collectionName(),
+            command.collectionType(),
+            command.includedQuestionIds()));
   }
 }

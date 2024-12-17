@@ -1,7 +1,9 @@
 package com.onetuks.csphinxserver.adapter.in.web;
 
 import com.onetuks.csphinxserver.adapter.in.dto.Collections;
+import com.onetuks.csphinxserver.application.CollectionService;
 import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
 import com.onetuks.csphinxserver.application.port.in.CollectionUseCases;
 import com.onetuks.csphinxserver.domain.question.Collection;
 import java.net.URI;
@@ -11,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CollectionRestController {
 
   private final CollectionUseCases collectionUseCases;
+  private final CollectionService collectionService;
 
-  public CollectionRestController(CollectionUseCases collectionUseCases) {
+  public CollectionRestController(
+      CollectionUseCases collectionUseCases, CollectionService collectionService) {
     this.collectionUseCases = collectionUseCases;
+    this.collectionService = collectionService;
   }
 
   @PostMapping(
@@ -50,5 +56,14 @@ public class CollectionRestController {
     Page<Collection> collections = collectionUseCases.searchAllCollections(pageable);
 
     return ResponseEntity.ok(new Collections(collections));
+  }
+
+  @PatchMapping(path = "/{collection-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> patchCollection(
+      @PathVariable("collection-id") String collectionId,
+      @RequestBody CollectionEditCommand command) {
+    collectionUseCases.editCollection(collectionId, command);
+
+    return ResponseEntity.noContent().build();
   }
 }
