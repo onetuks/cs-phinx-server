@@ -1,7 +1,7 @@
 package com.onetuks.csphinxserver.application;
 
-import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
@@ -24,13 +24,21 @@ public class QuestionService implements QuestionUseCases {
   @Override
   @Transactional
   public String addQuestion(QuestionAddCommand command) {
-    return questionPort.create(
-        new Question(
-            null,
-            command.title(), command.description(),
-            command.difficulty(), new TimeLimit(command.timeLimit()),
-            command.category(), command.topic(), command.tags(),
-            LocalDateTime.now(), 0, 0, 0))
+    return questionPort
+        .create(
+            new Question(
+                null,
+                command.title(),
+                command.description(),
+                command.difficulty(),
+                new TimeLimit(command.timeLimit()),
+                command.category(),
+                command.topic(),
+                command.tags(),
+                LocalDateTime.now(),
+                0,
+                0,
+                0))
         .questionId();
   }
 
@@ -50,10 +58,19 @@ public class QuestionService implements QuestionUseCases {
   @Transactional
   public void editQuestion(String questionId, QuestionEditCommand command) {
     questionPort.update(
-        new Question(questionId,
-            command.title(), command.description(), command.difficulty(),
-            new TimeLimit(command.timeLimit()), command.category(), command.topic(), command.tags(),
-            LocalDateTime.now(), 0, 0, 0));
+        new Question(
+            questionId,
+            command.title(),
+            command.description(),
+            command.difficulty(),
+            new TimeLimit(command.timeLimit()),
+            command.category(),
+            command.topic(),
+            command.tags(),
+            LocalDateTime.now(),
+            0,
+            0,
+            0));
   }
 
   @Override

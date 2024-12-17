@@ -4,7 +4,6 @@ import com.onetuks.csphinxserver.adapter.out.persistence.converter.AnswerConvert
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityMongoRepository;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
-import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +14,7 @@ public class AnswerEntityAdapter implements AnswerPort {
   private final AnswerConverter answerConverter;
 
   public AnswerEntityAdapter(
-      AnswerEntityMongoRepository answerRepository, AnswerConverter answerConverter
-  ) {
+      AnswerEntityMongoRepository answerRepository, AnswerConverter answerConverter) {
     this.answerConverter = answerConverter;
     this.answerRepository = answerRepository;
   }

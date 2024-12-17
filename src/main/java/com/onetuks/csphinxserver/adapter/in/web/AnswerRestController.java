@@ -41,7 +41,8 @@ public class AnswerRestController {
       path = "/choices",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewChoiceAnswer(@Valid @RequestBody ChoiceAnswerAddCommand command) {
+  public ResponseEntity<String> postNewChoiceAnswer(
+      @Valid @RequestBody ChoiceAnswerAddCommand command) {
     String answerId = answerUseCases.addChoiceAnswer(command);
 
     return ResponseEntity.created(URI.create("/api/answers/choices/" + answerId)).build();
@@ -51,7 +52,8 @@ public class AnswerRestController {
       path = "/shorts",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewShortAnswer(@Valid @RequestBody ShortAnswerAddCommand command) {
+  public ResponseEntity<String> postNewShortAnswer(
+      @Valid @RequestBody ShortAnswerAddCommand command) {
     String answerId = answerUseCases.addShortAnswer(command);
 
     return ResponseEntity.created(URI.create("/api/answers/shorts/" + answerId)).build();
@@ -61,7 +63,8 @@ public class AnswerRestController {
       path = "/descriptions",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewDescriptiveAnswer(@Valid @RequestBody DescriptiveAnswerAddCommand command) {
+  public ResponseEntity<String> postNewDescriptiveAnswer(
+      @Valid @RequestBody DescriptiveAnswerAddCommand command) {
     String answerId = answerUseCases.addDescriptiveAnswer(command);
 
     return ResponseEntity.created(URI.create("/api/answers/descriptions/" + answerId)).build();
@@ -92,8 +95,8 @@ public class AnswerRestController {
 
   @PatchMapping(path = "/descriptions/{answer-id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> patchDescriptiveAnswer(
-      @PathVariable("answer-id") String answerId, @RequestBody DescriptiveAnswerEditCommand command
-  ) {
+      @PathVariable("answer-id") String answerId,
+      @RequestBody DescriptiveAnswerEditCommand command) {
     answerService.editDescriptiveAnswer(answerId, command);
 
     return ResponseEntity.noContent().build();

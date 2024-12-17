@@ -7,15 +7,21 @@ public class ChoiceAnswer extends Answer {
   private final String value;
 
   public ChoiceAnswer(
-      String answerId, String questionId, AnswerType answerType,
-      String value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      String value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = value;
   }
 
   public ChoiceAnswer(
-      String answerId, String questionId, AnswerType answerType,
-      Object value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      Object value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = convertValueType(value);
   }

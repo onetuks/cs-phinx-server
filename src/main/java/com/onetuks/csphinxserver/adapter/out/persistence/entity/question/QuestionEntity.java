@@ -18,8 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "questions")
 public class QuestionEntity {
 
-  @Id
-  private String id;
+  @Id private String id;
   private String title;
   private String description;
   private Difficulty difficulty;
@@ -32,9 +31,18 @@ public class QuestionEntity {
   private Integer attemptCount;
   private Integer solvedCount;
 
-  public QuestionEntity(String title, String description, Difficulty difficulty, Integer timeLimit,
-      Category category, Topic topic, Set<String> tags, LocalDateTime updatedAt, Integer likeCount,
-      Integer attemptCount, Integer solvedCount) {
+  public QuestionEntity(
+      String title,
+      String description,
+      Difficulty difficulty,
+      Integer timeLimit,
+      Category category,
+      Topic topic,
+      Set<String> tags,
+      LocalDateTime updatedAt,
+      Integer likeCount,
+      Integer attemptCount,
+      Integer solvedCount) {
     this.title = title;
     this.description = description;
     this.difficulty = difficulty;

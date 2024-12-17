@@ -6,5 +6,4 @@ public record Collection(
     String collectionId,
     String collectionName,
     CollectionType collectionType,
-    Set<String> includedQuestionIds
-) {}
+    Set<String> includedQuestionIds) {}

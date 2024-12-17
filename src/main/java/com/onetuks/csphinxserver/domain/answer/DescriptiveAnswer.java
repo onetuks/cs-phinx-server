@@ -1,22 +1,27 @@
 package com.onetuks.csphinxserver.domain.answer;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class DescriptiveAnswer extends Answer {
 
   private final EmbeddingValue value;
 
   public DescriptiveAnswer(
-      String answerId, String questionId,
-      AnswerType answerType, EmbeddingValue value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      EmbeddingValue value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = value;
   }
 
   public DescriptiveAnswer(
-      String answerId, String questionId,
-      AnswerType answerType, Object value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      Object value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = convertValueType(value);
   }

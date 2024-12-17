@@ -15,5 +15,4 @@ public record Question(
     LocalDateTime updatedAt,
     int likeCount,
     int attemptCount,
-    int solvedCount
-) {}
+    int solvedCount) {}

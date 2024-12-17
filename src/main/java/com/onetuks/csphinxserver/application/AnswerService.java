@@ -30,30 +30,42 @@ public class AnswerService implements AnswerUseCases {
   @Override
   @Transactional
   public String addChoiceAnswer(ChoiceAnswerAddCommand command) {
-    return answerPort.create(
+    return answerPort
+        .create(
             new ChoiceAnswer(
-                null, command.questionId(),
-                AnswerType.CHOICE, command.answerNumber(), LocalDateTime.now()))
+                null,
+                command.questionId(),
+                AnswerType.CHOICE,
+                command.answerNumber(),
+                LocalDateTime.now()))
         .answerId();
   }
 
   @Override
   @Transactional
   public String addShortAnswer(ShortAnswerAddCommand command) {
-    return answerPort.create(
+    return answerPort
+        .create(
             new ShortAnswer(
-                null, command.questionId(),
-                AnswerType.SHORT, command.answerWord(), LocalDateTime.now()))
+                null,
+                command.questionId(),
+                AnswerType.SHORT,
+                command.answerWord(),
+                LocalDateTime.now()))
         .answerId();
   }
 
   @Override
   @Transactional
   public String addDescriptiveAnswer(DescriptiveAnswerAddCommand command) {
-    return answerPort.create(
+    return answerPort
+        .create(
             new DescriptiveAnswer(
-                null, command.questionId(),
-                AnswerType.DESCRIPTION, command.embeddingValue(), LocalDateTime.now()))
+                null,
+                command.questionId(),
+                AnswerType.DESCRIPTION,
+                command.embeddingValue(),
+                LocalDateTime.now()))
         .answerId();
   }
 
@@ -68,8 +80,11 @@ public class AnswerService implements AnswerUseCases {
   public void editChoiceAnswer(String answerId, ChoiceAnswerEditCommand command) {
     answerPort.update(
         new ChoiceAnswer(
-            answerId, command.questionId(),
-            AnswerType.CHOICE, command.answerNumber(), LocalDateTime.now()));
+            answerId,
+            command.questionId(),
+            AnswerType.CHOICE,
+            command.answerNumber(),
+            LocalDateTime.now()));
   }
 
   @Override
@@ -77,8 +92,11 @@ public class AnswerService implements AnswerUseCases {
   public void editShortAnswer(String answerId, ShortAnswerEditCommand command) {
     answerPort.update(
         new ShortAnswer(
-            answerId, command.questionId(),
-            AnswerType.SHORT, command.answerWord(), LocalDateTime.now()));
+            answerId,
+            command.questionId(),
+            AnswerType.SHORT,
+            command.answerWord(),
+            LocalDateTime.now()));
   }
 
   @Override
@@ -86,8 +104,11 @@ public class AnswerService implements AnswerUseCases {
   public void editDescriptiveAnswer(String answerId, DescriptiveAnswerEditCommand command) {
     answerPort.update(
         new DescriptiveAnswer(
-            answerId, command.questionId(),
-            AnswerType.DESCRIPTION, command.embeddingValue(), LocalDateTime.now()));
+            answerId,
+            command.questionId(),
+            AnswerType.DESCRIPTION,
+            command.embeddingValue(),
+            LocalDateTime.now()));
   }
 
   @Override

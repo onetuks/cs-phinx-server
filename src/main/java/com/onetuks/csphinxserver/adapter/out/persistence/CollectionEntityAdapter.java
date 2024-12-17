@@ -14,8 +14,8 @@ public class CollectionEntityAdapter implements CollectionPort {
   private final CollectionConverter collectionConverter;
 
   public CollectionEntityAdapter(
-      CollectionEntityMongoRepository collectionRepository, CollectionConverter collectionConverter
-  ) {
+      CollectionEntityMongoRepository collectionRepository,
+      CollectionConverter collectionConverter) {
     this.collectionRepository = collectionRepository;
     this.collectionConverter = collectionConverter;
   }

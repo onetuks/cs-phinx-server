@@ -1,22 +1,27 @@
 package com.onetuks.csphinxserver.domain.answer;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class ShortAnswer extends Answer {
 
   private final String value;
 
   public ShortAnswer(
-      String answerId, String questionId,
-      AnswerType answerType, String value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      String value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = value;
   }
 
   public ShortAnswer(
-      String answerId, String questionId,
-      AnswerType answerType, Object value, LocalDateTime updatedAt) {
+      String answerId,
+      String questionId,
+      AnswerType answerType,
+      Object value,
+      LocalDateTime updatedAt) {
     super(answerId, questionId, answerType, updatedAt);
     this.value = convertValueType(value);
   }

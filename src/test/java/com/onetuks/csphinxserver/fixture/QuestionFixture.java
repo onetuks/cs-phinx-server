@@ -1,7 +1,7 @@
 package com.onetuks.csphinxserver.fixture;
 
-import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.domain.question.Category;
 import com.onetuks.csphinxserver.domain.question.Difficulty;
 import com.onetuks.csphinxserver.domain.question.Question;
@@ -18,30 +18,49 @@ import java.util.stream.IntStream;
 public class QuestionFixture {
 
   private static final Random random = new Random();
-  private static final List<String> TITLES = List.of(
-      "JVM에 대한 문제", "데이터베이스 설계 순서", "NoSQL과 RDBMS의 차이", "OSI 7계층", "IPv4와 IPv6의 차이");
-  private static final List<String> TAGS = List.of(
-      "Java", "JVM", "Database", "NoSQL", "RDBMS", "Network", "OSI", "IPv4", "IPv6");
+  private static final List<String> TITLES =
+      List.of("JVM에 대한 문제", "데이터베이스 설계 순서", "NoSQL과 RDBMS의 차이", "OSI 7계층", "IPv4와 IPv6의 차이");
+  private static final List<String> TAGS =
+      List.of("Java", "JVM", "Database", "NoSQL", "RDBMS", "Network", "OSI", "IPv4", "IPv6");
 
   public static Question create() {
     return new Question(
-        null, createTitle(), createDescription(),
-        createDifficulty(), createTimeLimit(), createCategory(), createTopic(), createTags(),
-        createUpdatedAt(), createLikeCount(), createAttemptCount(), createSolvedCount());
+        null,
+        createTitle(),
+        createDescription(),
+        createDifficulty(),
+        createTimeLimit(),
+        createCategory(),
+        createTopic(),
+        createTags(),
+        createUpdatedAt(),
+        createLikeCount(),
+        createAttemptCount(),
+        createSolvedCount());
   }
 
   public static QuestionAddCommand createQuestionAddCommand() {
     Question question = create();
     return new QuestionAddCommand(
-        question.title(), question.description(), question.difficulty(),
-        question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
+        question.title(),
+        question.description(),
+        question.difficulty(),
+        question.timeLimit().seconds(),
+        question.category(),
+        question.topic(),
+        question.tags());
   }
 
   public static QuestionEditCommand createQuestionEditCommand() {
     Question question = create();
     return new QuestionEditCommand(
-        question.title(), question.description(), question.difficulty(),
-        question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
+        question.title(),
+        question.description(),
+        question.difficulty(),
+        question.timeLimit().seconds(),
+        question.category(),
+        question.topic(),
+        question.tags());
   }
 
   private static String createTitle() {

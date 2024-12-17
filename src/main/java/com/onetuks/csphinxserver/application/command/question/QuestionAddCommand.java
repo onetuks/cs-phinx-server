@@ -6,11 +6,10 @@ import com.onetuks.csphinxserver.domain.question.Topic;
 import java.util.Set;
 
 public record QuestionAddCommand(
-   String title,
-   String description,
-   Difficulty difficulty,
-   Integer timeLimit,
-   Category category,
-   Topic topic,
-   Set<String> tags
-) {}
+    String title,
+    String description,
+    Difficulty difficulty,
+    Integer timeLimit,
+    Category category,
+    Topic topic,
+    Set<String> tags) {}

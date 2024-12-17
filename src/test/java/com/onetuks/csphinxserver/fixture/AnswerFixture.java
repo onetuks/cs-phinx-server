@@ -21,28 +21,26 @@ public class AnswerFixture {
   private static final Random random = new Random();
 
   public static ChoiceAnswer createChoiceAnswer(String answerId, String questionId) {
-    return new ChoiceAnswer(answerId, questionId, AnswerType.CHOICE, createAnswerNumber(),
-        LocalDateTime.now());
+    return new ChoiceAnswer(
+        answerId, questionId, AnswerType.CHOICE, createAnswerNumber(), LocalDateTime.now());
   }
 
   public static ShortAnswer createShortAnswer(String answerId, String questionId) {
-    return new ShortAnswer(answerId, questionId, AnswerType.SHORT, createAnswerWords(),
-        LocalDateTime.now());
+    return new ShortAnswer(
+        answerId, questionId, AnswerType.SHORT, createAnswerWords(), LocalDateTime.now());
   }
 
   public static DescriptiveAnswer createDescriptiveAnswer(String answerId, String questionId) {
-    return new DescriptiveAnswer(answerId, questionId, AnswerType.DESCRIPTION,
-        createEmbeddedValue(), LocalDateTime.now());
+    return new DescriptiveAnswer(
+        answerId, questionId, AnswerType.DESCRIPTION, createEmbeddedValue(), LocalDateTime.now());
   }
 
   public static ChoiceAnswerAddCommand createChoiceAnswerAddCommand(String questionId) {
-    return new ChoiceAnswerAddCommand(
-        questionId, createChoiceAnswer(null, questionId).value());
+    return new ChoiceAnswerAddCommand(questionId, createChoiceAnswer(null, questionId).value());
   }
 
   public static ShortAnswerAddCommand createShortAnswerAddCommand(String questionId) {
-    return new ShortAnswerAddCommand(
-        questionId, createShortAnswer(null, questionId).value());
+    return new ShortAnswerAddCommand(questionId, createShortAnswer(null, questionId).value());
   }
 
   public static DescriptiveAnswerAddCommand createDescriptiveAnswerAddCommand(String questionId) {
@@ -78,8 +76,6 @@ public class AnswerFixture {
   private static EmbeddingValue createEmbeddedValue() {
     return new EmbeddingValue(
         UUID.randomUUID().toString(),
-        IntStream.range(0, random.nextInt(4) + 1)
-            .mapToObj(i -> random.nextDouble())
-            .toList());
+        IntStream.range(0, random.nextInt(4) + 1).mapToObj(i -> random.nextDouble()).toList());
   }
 }

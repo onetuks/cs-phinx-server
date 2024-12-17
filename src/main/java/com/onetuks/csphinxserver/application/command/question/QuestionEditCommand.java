@@ -12,5 +12,4 @@ public record QuestionEditCommand(
     Integer timeLimit,
     Category category,
     Topic topic,
-    Set<String> tags
-) {}
+    Set<String> tags) {}

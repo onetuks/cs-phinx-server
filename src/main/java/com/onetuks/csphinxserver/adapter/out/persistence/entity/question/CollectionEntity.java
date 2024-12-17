@@ -21,8 +21,7 @@ public class CollectionEntity {
   private Set<String> includedQuestionIds;
 
   public CollectionEntity(
-      String collectionName, CollectionType collectionType, Set<String> includedQuestionIds
-  ) {
+      String collectionName, CollectionType collectionType, Set<String> includedQuestionIds) {
     this.collectionName = collectionName;
     this.collectionType = collectionType;
     this.includedQuestionIds = includedQuestionIds;

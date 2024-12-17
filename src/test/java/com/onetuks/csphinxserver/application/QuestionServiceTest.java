@@ -1,12 +1,12 @@
 package com.onetuks.csphinxserver.application;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
-import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
+import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
 import com.onetuks.csphinxserver.domain.question.Question;
 import com.onetuks.csphinxserver.fixture.QuestionFixture;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
@@ -76,21 +76,23 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   void searchQuestions() {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
-    List<String> questionIds = IntStream.range(0, 5)
-        .mapToObj(i -> questionService.addQuestion(QuestionFixture.createQuestionAddCommand()))
-        .toList();
+    List<String> questionIds =
+        IntStream.range(0, 5)
+            .mapToObj(i -> questionService.addQuestion(QuestionFixture.createQuestionAddCommand()))
+            .toList();
 
     // When
     Page<Question> questions = questionService.searchQuestions(pageable);
 
     // Then
-    List<Question> results = questions.getContent().stream()
-        .filter(question -> questionIds.contains(question.questionId()))
-        .toList();
+    List<Question> results =
+        questions.getContent().stream()
+            .filter(question -> questionIds.contains(question.questionId()))
+            .toList();
 
     assertThat(results).hasSize(questionIds.size());
   }
-  
+
   @Test
   @DisplayName("문제를 수정한다.")
   void editQuestion() {
@@ -101,7 +103,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
 
     // When
     questionService.editQuestion(questionId, command);
-    
+
     // Then
     Question result = questionService.searchQuestion(questionId);
 

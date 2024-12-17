@@ -36,8 +36,7 @@ public class QuestionConverter {
         domain.updatedAt(),
         domain.likeCount(),
         domain.attemptCount(),
-        domain.solvedCount()
-    );
+        domain.solvedCount());
   }
 
   public Question toDomain(QuestionEntity entity) {

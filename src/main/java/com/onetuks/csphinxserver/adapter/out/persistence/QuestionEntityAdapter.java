@@ -16,15 +16,15 @@ public class QuestionEntityAdapter implements QuestionPort {
   private final QuestionConverter questionConverter;
 
   public QuestionEntityAdapter(
-      QuestionEntityMongoRepository questionRepository, QuestionConverter questionConverter
-  ) {
+      QuestionEntityMongoRepository questionRepository, QuestionConverter questionConverter) {
     this.questionRepository = questionRepository;
     this.questionConverter = questionConverter;
   }
 
   @Override
   public Question create(Question question) {
-    return questionConverter.toDomain(questionRepository.save(questionConverter.toEntity(question)));
+    return questionConverter.toDomain(
+        questionRepository.save(questionConverter.toEntity(question)));
   }
 
   @Override

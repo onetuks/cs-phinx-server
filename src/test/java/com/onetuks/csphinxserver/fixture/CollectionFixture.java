@@ -11,19 +11,17 @@ public class CollectionFixture {
 
   private static final Random random = new Random();
 
-  private static final List<String> COLLECTION_NAMES = List.of(
-      "OS 모음집", "자료구조 모음집", "우리카드 면접직전", "금융결제원 면접 직전", "오늘의문제");
+  private static final List<String> COLLECTION_NAMES =
+      List.of("OS 모음집", "자료구조 모음집", "우리카드 면접직전", "금융결제원 면접 직전", "오늘의문제");
 
   public static Collection create(String collectionId, String... questionIds) {
     return new Collection(
-        collectionId,
-        createCollectionName(),
-        createCollectionType(),
-        Set.of(questionIds));
+        collectionId, createCollectionName(), createCollectionType(), Set.of(questionIds));
   }
 
   public static CollectionAddCommand createCollectionAddCommand(String... questionIds) {
-    return new CollectionAddCommand(createCollectionName(), createCollectionType(), Set.of(questionIds));
+    return new CollectionAddCommand(
+        createCollectionName(), createCollectionType(), Set.of(questionIds));
   }
 
   private static String createCollectionName() {

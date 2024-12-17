@@ -3,7 +3,6 @@ package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.answer.EmbeddingValue;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

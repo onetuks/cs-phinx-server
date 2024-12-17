@@ -14,8 +14,8 @@ public class ChoiceAnswerEntity extends AnswerEntity {
 
   private String value;
 
-  public ChoiceAnswerEntity(String id, String questionId, AnswerType answerType,
-      Object value, LocalDateTime updatedAt) {
+  public ChoiceAnswerEntity(
+      String id, String questionId, AnswerType answerType, Object value, LocalDateTime updatedAt) {
     super(id, questionId, answerType, updatedAt);
     this.value = convertValueType(value);
   }
