@@ -1,10 +1,10 @@
 package com.onetuks.csphinxserver.application;
 
-import static com.onetuks.csphinxserver.fixture.AnswerFixture.createChoiceAddCommand;
+import static com.onetuks.csphinxserver.fixture.AnswerFixture.createChoiceAnswerAddCommand;
 import static com.onetuks.csphinxserver.fixture.AnswerFixture.createChoiceAnswerEditCommand;
-import static com.onetuks.csphinxserver.fixture.AnswerFixture.createDescriptiveAddCommand;
+import static com.onetuks.csphinxserver.fixture.AnswerFixture.createDescriptiveAnswerAddCommand;
 import static com.onetuks.csphinxserver.fixture.AnswerFixture.createDescriptiveAnswerEditCommand;
-import static com.onetuks.csphinxserver.fixture.AnswerFixture.createShortAddCommand;
+import static com.onetuks.csphinxserver.fixture.AnswerFixture.createShortAnswerAddCommand;
 import static com.onetuks.csphinxserver.fixture.AnswerFixture.createShortAnswerEditCommand;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -33,7 +33,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void addChoiceAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    ChoiceAnswerAddCommand command = createChoiceAddCommand(questionId);
+    ChoiceAnswerAddCommand command = createChoiceAnswerAddCommand(questionId);
 
     // When
     String result = answerService.addChoiceAnswer(command);
@@ -47,7 +47,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void addShortAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    ShortAnswerAddCommand command = createShortAddCommand(questionId);
+    ShortAnswerAddCommand command = createShortAnswerAddCommand(questionId);
 
     // When
     String result = answerService.addShortAnswer(command);
@@ -61,7 +61,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void addDescriptiveAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    DescriptiveAnswerAddCommand command = createDescriptiveAddCommand(questionId);
+    DescriptiveAnswerAddCommand command = createDescriptiveAnswerAddCommand(questionId);
 
     // When
     String result = answerService.addDescriptiveAnswer(command);
@@ -75,7 +75,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void searchAnswersTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
+    answerService.addChoiceAnswer(createChoiceAnswerAddCommand(questionId));
 
     // When
     List<Answer> answer = answerService.searchAnswers(questionId);
@@ -97,8 +97,8 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void searchShortAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    answerService.addShortAnswer(createShortAddCommand(questionId));
-    answerService.addShortAnswer(createShortAddCommand(questionId));
+    answerService.addShortAnswer(createShortAnswerAddCommand(questionId));
+    answerService.addShortAnswer(createShortAnswerAddCommand(questionId));
 
     // When
     List<Answer> answer = answerService.searchAnswers(questionId);
@@ -121,8 +121,8 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void searchDescriptiveAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
-    answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
+    answerService.addDescriptiveAnswer(createDescriptiveAnswerAddCommand(questionId));
+    answerService.addDescriptiveAnswer(createDescriptiveAnswerAddCommand(questionId));
 
     // When
     List<Answer> answer = answerService.searchAnswers(questionId);
@@ -147,7 +147,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void editChoiceAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    String answerId = answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
+    String answerId = answerService.addChoiceAnswer(createChoiceAnswerAddCommand(questionId));
     Answer answer = answerService.searchAnswers(questionId).getFirst();
 
     ChoiceAnswerEditCommand command = createChoiceAnswerEditCommand(answerId, questionId);
@@ -170,7 +170,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void editShortAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    String answerId = answerService.addShortAnswer(createShortAddCommand(questionId));
+    String answerId = answerService.addShortAnswer(createShortAnswerAddCommand(questionId));
 
     ShortAnswerEditCommand command = createShortAnswerEditCommand(answerId, questionId);
 
@@ -196,7 +196,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void editDescriptiveAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    String answerId = answerService.addDescriptiveAnswer(createDescriptiveAddCommand(questionId));
+    String answerId = answerService.addDescriptiveAnswer(createDescriptiveAnswerAddCommand(questionId));
 
     DescriptiveAnswerEditCommand command = createDescriptiveAnswerEditCommand(answerId, questionId);
 
@@ -224,7 +224,7 @@ class AnswerServiceTest extends CsPhinxServerApplicationTests {
   void removeAnswerTest() {
     // Given
     String questionId = UUID.randomUUID().toString();
-    String answerId = answerService.addChoiceAnswer(createChoiceAddCommand(questionId));
+    String answerId = answerService.addChoiceAnswer(createChoiceAnswerAddCommand(questionId));
 
     // When
     answerService.removeAnswer(answerId);

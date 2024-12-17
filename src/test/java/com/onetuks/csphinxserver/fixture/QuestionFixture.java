@@ -30,14 +30,14 @@ public class QuestionFixture {
         createUpdatedAt(), createLikeCount(), createAttemptCount(), createSolvedCount());
   }
 
-  public static QuestionAddCommand createPostCommand() {
+  public static QuestionAddCommand createQuestionAddCommand() {
     Question question = create();
     return new QuestionAddCommand(
         question.title(), question.description(), question.difficulty(),
         question.timeLimit().seconds(), question.category(), question.topic(), question.tags());
   }
 
-  public static QuestionEditCommand createPatchCommand() {
+  public static QuestionEditCommand createQuestionEditCommand() {
     Question question = create();
     return new QuestionEditCommand(
         question.title(), question.description(), question.difficulty(),

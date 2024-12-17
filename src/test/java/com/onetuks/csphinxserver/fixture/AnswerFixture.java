@@ -35,17 +35,17 @@ public class AnswerFixture {
         createEmbeddedValue(), LocalDateTime.now());
   }
 
-  public static ChoiceAnswerAddCommand createChoiceAddCommand(String questionId) {
+  public static ChoiceAnswerAddCommand createChoiceAnswerAddCommand(String questionId) {
     return new ChoiceAnswerAddCommand(
         questionId, createChoiceAnswer(null, questionId).value());
   }
 
-  public static ShortAnswerAddCommand createShortAddCommand(String questionId) {
+  public static ShortAnswerAddCommand createShortAnswerAddCommand(String questionId) {
     return new ShortAnswerAddCommand(
         questionId, createShortAnswer(null, questionId).value());
   }
 
-  public static DescriptiveAnswerAddCommand createDescriptiveAddCommand(String questionId) {
+  public static DescriptiveAnswerAddCommand createDescriptiveAnswerAddCommand(String questionId) {
     return new DescriptiveAnswerAddCommand(
         questionId, createDescriptiveAnswer(null, questionId).value());
   }

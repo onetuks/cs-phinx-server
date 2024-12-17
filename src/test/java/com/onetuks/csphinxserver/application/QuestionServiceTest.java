@@ -25,7 +25,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 추가한다")
   void addQuestion() {
     // Given
-    QuestionAddCommand command = QuestionFixture.createPostCommand();
+    QuestionAddCommand command = QuestionFixture.createQuestionAddCommand();
 
     // When
     String result = questionService.addQuestion(command);
@@ -38,7 +38,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 조회한다.")
   void searchQuestion() {
     // Given
-    QuestionAddCommand command = QuestionFixture.createPostCommand();
+    QuestionAddCommand command = QuestionFixture.createQuestionAddCommand();
     String questionId = questionService.addQuestion(command);
 
     // When
@@ -77,7 +77,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
     List<String> questionIds = IntStream.range(0, 5)
-        .mapToObj(i -> questionService.addQuestion(QuestionFixture.createPostCommand()))
+        .mapToObj(i -> questionService.addQuestion(QuestionFixture.createQuestionAddCommand()))
         .toList();
 
     // When
@@ -95,9 +95,9 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 수정한다.")
   void editQuestion() {
     // Given
-    QuestionAddCommand postCommand = QuestionFixture.createPostCommand();
+    QuestionAddCommand postCommand = QuestionFixture.createQuestionAddCommand();
     String questionId = questionService.addQuestion(postCommand);
-    QuestionEditCommand command = QuestionFixture.createPatchCommand();
+    QuestionEditCommand command = QuestionFixture.createQuestionEditCommand();
 
     // When
     questionService.editQuestion(questionId, command);
@@ -124,7 +124,7 @@ class QuestionServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("문제를 삭제한다.")
   void removeQuestion() {
     // Given
-    QuestionAddCommand postCommand = QuestionFixture.createPostCommand();
+    QuestionAddCommand postCommand = QuestionFixture.createQuestionAddCommand();
     String questionId = questionService.addQuestion(postCommand);
 
     // When

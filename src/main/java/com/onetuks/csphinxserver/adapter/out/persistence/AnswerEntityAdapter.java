@@ -11,11 +11,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AnswerEntityAdapter implements AnswerPort {
 
-  private final AnswerConverter answerConverter;
   private final AnswerEntityMongoRepository answerRepository;
+  private final AnswerConverter answerConverter;
 
   public AnswerEntityAdapter(
-      AnswerConverter answerConverter, AnswerEntityMongoRepository answerRepository) {
+      AnswerEntityMongoRepository answerRepository, AnswerConverter answerConverter
+  ) {
     this.answerConverter = answerConverter;
     this.answerRepository = answerRepository;
   }

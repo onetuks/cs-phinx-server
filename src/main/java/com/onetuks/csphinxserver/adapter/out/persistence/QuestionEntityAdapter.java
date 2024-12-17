@@ -16,8 +16,8 @@ public class QuestionEntityAdapter implements QuestionPort {
   private final QuestionConverter questionConverter;
 
   public QuestionEntityAdapter(
-      QuestionEntityMongoRepository questionRepository,
-      QuestionConverter questionConverter) {
+      QuestionEntityMongoRepository questionRepository, QuestionConverter questionConverter
+  ) {
     this.questionRepository = questionRepository;
     this.questionConverter = questionConverter;
   }
