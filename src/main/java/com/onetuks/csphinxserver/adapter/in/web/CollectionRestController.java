@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +64,13 @@ public class CollectionRestController {
       @PathVariable("collection-id") String collectionId,
       @RequestBody CollectionEditCommand command) {
     collectionUseCases.editCollection(collectionId, command);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping(path = "/{collection-id}")
+  public ResponseEntity<Void> deleteCollection(@PathVariable("collection-id") String collectionId) {
+    collectionUseCases.removeCollection(collectionId);
 
     return ResponseEntity.noContent().build();
   }

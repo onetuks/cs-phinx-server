@@ -3,6 +3,7 @@ package com.onetuks.csphinxserver.application;
 import static com.onetuks.csphinxserver.fixture.CollectionFixture.createCollectionAddCommand;
 import static com.onetuks.csphinxserver.fixture.CollectionFixture.createCollectionEditCommand;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
@@ -10,6 +11,7 @@ import com.onetuks.csphinxserver.application.command.question.CollectionAddComma
 import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
 import com.onetuks.csphinxserver.domain.question.Collection;
 import com.onetuks.csphinxserver.domain.question.CollectionType;
+import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,5 +128,19 @@ class CollectionServiceTest extends CsPhinxServerApplicationTests {
         () ->
             assertThat(result.includedQuestionIds())
                 .containsExactlyElementsOf(command.includedQuestionIds()));
+  }
+
+  @Test
+  @DisplayName("모음집을 삭제한다.")
+  void removeCollectionTest() {
+    // Given
+    String collectionId = collection.collectionId();
+
+    // When
+    collectionService.removeCollection(collectionId);
+
+    // Then
+    assertThatThrownBy(() -> collectionService.searchCollection(collectionId))
+        .isInstanceOf(NoSuchEntityException.class);
   }
 }

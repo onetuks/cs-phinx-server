@@ -15,4 +15,6 @@ public interface CollectionUseCases {
   Page<Collection> searchAllCollections(Pageable pageable);
 
   void editCollection(String collectionId, CollectionEditCommand command);
+
+  void removeCollection(String collectionId);
 }

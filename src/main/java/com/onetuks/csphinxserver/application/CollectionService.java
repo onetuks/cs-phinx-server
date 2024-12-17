@@ -52,4 +52,9 @@ public class CollectionService implements CollectionUseCases {
             command.collectionType(),
             command.includedQuestionIds()));
   }
+
+  @Override
+  public void removeCollection(String collectionId) {
+    collectionPort.delete(collectionId);
+  }
 }
