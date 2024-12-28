@@ -9,7 +9,7 @@ import org.springframework.data.annotation.TypeAlias;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@TypeAlias(value = "shortAnswerEntity")
+@TypeAlias(value = "short_answer_entity")
 public class ShortAnswerEntity extends AnswerEntity {
 
   private String value;

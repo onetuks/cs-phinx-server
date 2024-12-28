@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,16 +20,38 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class QuestionEntity {
 
   @Id private String id;
+
+  @Field(name = "title")
   private String title;
+
+  @Field(name = "description")
   private String description;
+
+  @Field(name = "difficulty")
   private Difficulty difficulty;
+
+  @Field(name = "time_limit")
   private Integer timeLimit;
+
+  @Field(name = "category")
   private Category category;
+
+  @Field(name = "topic")
   private Topic topic;
+
+  @Field(name = "tags")
   private Set<String> tags;
+
+  @Field(name = "updated_at")
   private LocalDateTime updatedAt;
+
+  @Field(name = "like_count")
   private Integer likeCount;
+
+  @Field(name = "attempt_count")
   private Integer attemptCount;
+
+  @Field(name = "solved_count")
   private Integer solvedCount;
 
   public QuestionEntity(

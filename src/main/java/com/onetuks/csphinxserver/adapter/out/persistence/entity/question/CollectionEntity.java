@@ -8,16 +8,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-@Document(collection = "packages")
+@Document(collection = "collections")
 public class CollectionEntity {
 
   @Id private String id;
+
+  @Field(name = "collection_name")
   private String collectionName;
+
+  @Field(name = "collection_type")
   private CollectionType collectionType;
+
+  @Field(name = "included_question_ids")
   private Set<String> includedQuestionIds;
 
   public CollectionEntity(

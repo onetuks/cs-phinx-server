@@ -10,7 +10,7 @@ import org.springframework.data.annotation.TypeAlias;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@TypeAlias(value = "descriptiveAnswerEntity")
+@TypeAlias(value = "descriptive_answer_entity")
 public class DescriptiveAnswerEntity extends AnswerEntity {
 
   private EmbeddingValue value;
