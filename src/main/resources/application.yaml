@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST:localhost}:3306/csphinx
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USERNAME:test}
+    password: ${DB_PASSWORD:test}
 
   flyway:
     enabled: true
@@ -29,8 +29,8 @@ spring:
     mongodb:
       uri: mongodb://${DB_HOST:localhost}:27017/csphinx
       database: csphinx
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
+      username: ${DB_USERNAME:test}
+      password: ${DB_PASSWORD:test}
 
 logging:
   level:
