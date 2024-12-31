@@ -32,6 +32,10 @@ spring:
       username: ${DB_USERNAME:test}
       password: ${DB_PASSWORD:test}
 
+openai:
+  api-key: ${OPEN_AI_API_KEY}
+  base-url: https://api.openai.com/v1/chat/completions
+
 logging:
   level:
     org:
