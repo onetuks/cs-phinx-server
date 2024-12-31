@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.adapter.in.dto;
+package com.onetuks.csphinxserver.adapter.in.controller.dto;
 
 import com.onetuks.csphinxserver.domain.question.Question;
 import org.springframework.data.domain.Page;

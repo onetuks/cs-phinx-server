@@ -1,6 +1,6 @@
-package com.onetuks.csphinxserver.adapter.in.web;
+package com.onetuks.csphinxserver.adapter.in.controller;
 
-import com.onetuks.csphinxserver.adapter.in.dto.Collections;
+import com.onetuks.csphinxserver.adapter.in.controller.dto.Collections;
 import com.onetuks.csphinxserver.application.CollectionService;
 import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
 import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;

@@ -1,6 +1,6 @@
-package com.onetuks.csphinxserver.adapter.in.web;
+package com.onetuks.csphinxserver.adapter.in.controller;
 
-import com.onetuks.csphinxserver.adapter.in.dto.Answers;
+import com.onetuks.csphinxserver.adapter.in.controller.dto.Answers;
 import com.onetuks.csphinxserver.application.AnswerService;
 import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddCommand;
 import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerEditCommand;
