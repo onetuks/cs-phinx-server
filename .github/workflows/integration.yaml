@@ -5,7 +5,7 @@ on:
       - opened
       - synchronize
       - reopened
-    branches-ignore:
+    branches:
       - main
 
 permissions: read-all
@@ -52,17 +52,17 @@ jobs:
         run: |
           ./gradlew build spotlessApply --parallel
 
-          - name: Coverage Report
-            if: steps.changes.outputs.application == 'true'
-            uses: madrapps/jacoco-report@v1.6.1
-            with:
-              token: ${{ secrets.GITHUB_TOKEN }}
-              title: Code Coverage Report
-              update-comment: true
-              min-coverage-overall: 10
-              min-coverage-changed-files: 10
-              paths: |
-                ${{ github.workspace }}/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+      - name: Coverage Report
+        if: steps.changes.outputs.application == 'true'
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Code Coverage Report
+          update-comment: true
+          min-coverage-overall: 10
+          min-coverage-changed-files: 10
+          paths: |
+            ${{ github.workspace }}/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
   style-test:
     runs-on: ubuntu-latest
