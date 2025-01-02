@@ -1,18 +1,12 @@
 package com.onetuks.csphinxserver.adapter.in.controller;
 
-import com.onetuks.csphinxserver.adapter.in.controller.dto.Answers;
 import com.onetuks.csphinxserver.application.AnswerService;
-import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerEditCommand;
-import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerEditCommand;
-import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.ShortAnswerEditCommand;
+import com.onetuks.csphinxserver.application.command.answer.AnswerAddCommand;
+import com.onetuks.csphinxserver.application.command.answer.AnswerEditCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.domain.answer.Answer;
 import jakarta.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,66 +32,25 @@ public class AnswerRestController {
   }
 
   @PostMapping(
-      path = "/choices",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewChoiceAnswer(
-      @Valid @RequestBody ChoiceAnswerAddCommand command) {
-    String answerId = answerUseCases.addChoiceAnswer(command);
+  public ResponseEntity<String> postNewChoiceAnswer(@Valid @RequestBody AnswerAddCommand command) {
+    String answerId = answerUseCases.addAnswer(command);
 
     return ResponseEntity.created(URI.create("/api/answers/choices/" + answerId)).build();
   }
 
-  @PostMapping(
-      path = "/shorts",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewShortAnswer(
-      @Valid @RequestBody ShortAnswerAddCommand command) {
-    String answerId = answerUseCases.addShortAnswer(command);
-
-    return ResponseEntity.created(URI.create("/api/answers/shorts/" + answerId)).build();
-  }
-
-  @PostMapping(
-      path = "/descriptions",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewDescriptiveAnswer(
-      @Valid @RequestBody DescriptiveAnswerAddCommand command) {
-    String answerId = answerUseCases.addDescriptiveAnswer(command);
-
-    return ResponseEntity.created(URI.create("/api/answers/descriptions/" + answerId)).build();
-  }
-
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Answers> getAnswers(@RequestParam("question-id") String questionId) {
-    List<Answer> answers = answerUseCases.searchAnswers(questionId);
+  public ResponseEntity<Answer> getAnswer(@RequestParam("question-id") String questionId) {
+    Answer answer = answerUseCases.searchAnswer(questionId);
 
-    return ResponseEntity.ok(new Answers(answers));
+    return ResponseEntity.ok(answer);
   }
 
-  @PatchMapping(path = "/choices/{answer-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> patchChoiceAnswer(
-      @PathVariable("answer-id") String answerId, @RequestBody ChoiceAnswerEditCommand command) {
-    answerUseCases.editChoiceAnswer(answerId, command);
-
-    return ResponseEntity.noContent().build();
-  }
-
-  @PatchMapping(path = "/shorts/{answer-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> patchShortAnswer(
-      @PathVariable("answer-id") String answerId, @RequestBody ShortAnswerEditCommand command) {
-    answerUseCases.editShortAnswer(answerId, command);
-
-    return ResponseEntity.noContent().build();
-  }
-
-  @PatchMapping(path = "/descriptions/{answer-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> patchDescriptiveAnswer(
-      @PathVariable("answer-id") String answerId,
-      @RequestBody DescriptiveAnswerEditCommand command) {
-    answerService.editDescriptiveAnswer(answerId, command);
+  @PatchMapping(path = "/{answer-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> patchAnswer(
+      @PathVariable("answer-id") String answerId, @RequestBody AnswerEditCommand command) {
+    answerUseCases.editAnswer(answerId, command);
 
     return ResponseEntity.noContent().build();
   }

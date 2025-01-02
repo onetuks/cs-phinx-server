@@ -1,7 +1,8 @@
-package com.onetuks.csphinxserver.adapter.out.persistence.entity.answer;
+package com.onetuks.csphinxserver.adapter.out.persistence.entity;
 
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @TypeAlias(value = "answerEntity")
 @Document(collection = "answers")
-public abstract class AnswerEntity {
+public class AnswerEntity {
 
   @Id private String id;
 
@@ -27,14 +28,20 @@ public abstract class AnswerEntity {
   @Field(name = "answer_type")
   private AnswerType answerType;
 
+  @Field(name = "answer_values")
+  private List<String> answerValues;
+
   @Filter(name = "updated_at")
   private LocalDateTime updatedAt;
 
-  public AnswerEntity(String questionId, AnswerType answerType, LocalDateTime updatedAt) {
+  public AnswerEntity(
+      String questionId,
+      AnswerType answerType,
+      List<String> answerValues,
+      LocalDateTime updatedAt) {
     this.questionId = questionId;
     this.answerType = answerType;
+    this.answerValues = answerValues;
     this.updatedAt = updatedAt;
   }
-
-  public abstract Object getValue();
 }

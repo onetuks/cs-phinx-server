@@ -6,7 +6,6 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,12 +31,12 @@ class ArchitectureTest {
   class ClassNameTest {
 
     @Test
-    @DisplayName("web 패키지 안에 있는 클래스는 RestController 로 끝난다.")
+    @DisplayName("controller 패키지 안에 있는 클래스는 RestController 로 끝난다.")
     void controller_ClassNamePostfix_Test() {
       ArchRule rule =
           ArchRuleDefinition.classes()
               .that()
-              .resideInAnyPackage("..web")
+              .resideInAnyPackage("..controller")
               .should()
               .haveSimpleNameEndingWith("RestController")
               .andShould()
@@ -182,21 +181,6 @@ class ArchitectureTest {
 
       rule.check(javaClasses);
     }
-
-    @Disabled
-    @Test
-    @DisplayName("dto 패키지 안에 있는 클래스는 Response(s) 혹은 Request 로 끝난다.")
-    void response_ClassNamePostfix_Test() {
-      ArchRule rule =
-          ArchRuleDefinition.classes()
-              .that()
-              .resideInAnyPackage("..dto")
-              .should()
-              .haveNameMatching(".*(Response|Responses|Request)$")
-              .allowEmptyShould(true);
-
-      rule.check(javaClasses);
-    }
   }
 
   @Nested
@@ -334,7 +318,7 @@ class ArchitectureTest {
     }
 
     @Test
-    @DisplayName("dto 는 오직 web 패키지에서만 의존한다")
+    @DisplayName("dto 는 오직 in 패키지에서만 의존한다")
     void dto_HaveDependency_Test() {
       ArchRule rule =
           ArchRuleDefinition.classes()
@@ -342,7 +326,7 @@ class ArchitectureTest {
               .resideInAnyPackage("..dto..")
               .should()
               .onlyHaveDependentClassesThat()
-              .resideInAnyPackage("..web..")
+              .resideInAnyPackage("..in..")
               .allowEmptyShould(true);
 
       rule.check(javaClasses);

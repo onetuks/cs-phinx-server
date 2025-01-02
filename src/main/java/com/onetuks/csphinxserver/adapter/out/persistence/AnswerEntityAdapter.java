@@ -4,7 +4,7 @@ import com.onetuks.csphinxserver.adapter.out.persistence.converter.AnswerConvert
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityMongoRepository;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
-import java.util.List;
+import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,10 +25,9 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public List<Answer> read(String questionId) {
-    return answerRepository.findAllByQuestionId(questionId).stream()
-        .map(answerConverter::toDomain)
-        .toList();
+  public Answer read(String questionId) {
+    return answerConverter.toDomain(
+        answerRepository.findByQuestionId(questionId).orElseThrow(NoSuchEntityException::new));
   }
 
   @Override
