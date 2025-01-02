@@ -1,6 +1,6 @@
 package com.onetuks.csphinxserver.application.command.question;
 
-import com.onetuks.csphinxserver.domain.question.Category;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.question.Difficulty;
 import com.onetuks.csphinxserver.domain.question.Topic;
 import java.util.Set;
@@ -9,7 +9,6 @@ public record QuestionAddCommand(
     String title,
     String description,
     Difficulty difficulty,
-    Integer timeLimit,
-    Category category,
+    AnswerType answerType,
     Topic topic,
     Set<String> tags) {}

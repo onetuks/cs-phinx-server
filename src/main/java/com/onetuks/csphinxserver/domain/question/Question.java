@@ -1,5 +1,6 @@
 package com.onetuks.csphinxserver.domain.question;
 
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -8,8 +9,7 @@ public record Question(
     String title,
     String description,
     Difficulty difficulty,
-    TimeLimit timeLimit,
-    Category category,
+    AnswerType answerType,
     Topic topic,
     Set<String> tags,
     LocalDateTime updatedAt,

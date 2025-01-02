@@ -1,8 +1,7 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.converter;
 
-import com.onetuks.csphinxserver.adapter.out.persistence.entity.question.QuestionEntity;
+import com.onetuks.csphinxserver.adapter.out.persistence.entity.QuestionEntity;
 import com.onetuks.csphinxserver.domain.question.Question;
-import com.onetuks.csphinxserver.domain.question.TimeLimit;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,8 +12,7 @@ public class QuestionConverter {
         domain.title(),
         domain.description(),
         domain.difficulty(),
-        domain.timeLimit().seconds(),
-        domain.category(),
+        domain.answerType(),
         domain.topic(),
         domain.tags(),
         domain.updatedAt(),
@@ -29,8 +27,7 @@ public class QuestionConverter {
         domain.title(),
         domain.description(),
         domain.difficulty(),
-        domain.timeLimit().seconds(),
-        domain.category(),
+        domain.answerType(),
         domain.topic(),
         domain.tags(),
         domain.updatedAt(),
@@ -45,8 +42,7 @@ public class QuestionConverter {
         entity.getTitle(),
         entity.getDescription(),
         entity.getDifficulty(),
-        new TimeLimit(entity.getTimeLimit()),
-        entity.getCategory(),
+        entity.getAnswerType(),
         entity.getTopic(),
         entity.getTags(),
         entity.getUpdatedAt(),

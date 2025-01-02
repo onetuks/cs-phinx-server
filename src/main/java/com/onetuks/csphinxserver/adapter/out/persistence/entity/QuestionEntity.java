@@ -1,6 +1,6 @@
-package com.onetuks.csphinxserver.adapter.out.persistence.entity.question;
+package com.onetuks.csphinxserver.adapter.out.persistence.entity;
 
-import com.onetuks.csphinxserver.domain.question.Category;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.question.Difficulty;
 import com.onetuks.csphinxserver.domain.question.Topic;
 import jakarta.persistence.Id;
@@ -30,11 +30,8 @@ public class QuestionEntity {
   @Field(name = "difficulty")
   private Difficulty difficulty;
 
-  @Field(name = "time_limit")
-  private Integer timeLimit;
-
   @Field(name = "category")
-  private Category category;
+  private AnswerType answerType;
 
   @Field(name = "topic")
   private Topic topic;
@@ -58,8 +55,7 @@ public class QuestionEntity {
       String title,
       String description,
       Difficulty difficulty,
-      Integer timeLimit,
-      Category category,
+      AnswerType answerType,
       Topic topic,
       Set<String> tags,
       LocalDateTime updatedAt,
@@ -69,8 +65,7 @@ public class QuestionEntity {
     this.title = title;
     this.description = description;
     this.difficulty = difficulty;
-    this.timeLimit = timeLimit;
-    this.category = category;
+    this.answerType = answerType;
     this.topic = topic;
     this.tags = tags;
     this.updatedAt = updatedAt;

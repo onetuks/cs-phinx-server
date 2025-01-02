@@ -5,7 +5,6 @@ import com.onetuks.csphinxserver.application.command.question.QuestionEditComman
 import com.onetuks.csphinxserver.application.port.in.QuestionUseCases;
 import com.onetuks.csphinxserver.application.port.out.QuestionPort;
 import com.onetuks.csphinxserver.domain.question.Question;
-import com.onetuks.csphinxserver.domain.question.TimeLimit;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +30,7 @@ public class QuestionService implements QuestionUseCases {
                 command.title(),
                 command.description(),
                 command.difficulty(),
-                new TimeLimit(command.timeLimit()),
-                command.category(),
+                command.answerType(),
                 command.topic(),
                 command.tags(),
                 LocalDateTime.now(),
@@ -63,8 +61,7 @@ public class QuestionService implements QuestionUseCases {
             command.title(),
             command.description(),
             command.difficulty(),
-            new TimeLimit(command.timeLimit()),
-            command.category(),
+            command.answerType(),
             command.topic(),
             command.tags(),
             LocalDateTime.now(),

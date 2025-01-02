@@ -2,10 +2,9 @@ package com.onetuks.csphinxserver.fixture;
 
 import com.onetuks.csphinxserver.application.command.question.QuestionAddCommand;
 import com.onetuks.csphinxserver.application.command.question.QuestionEditCommand;
-import com.onetuks.csphinxserver.domain.question.Category;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.question.Difficulty;
 import com.onetuks.csphinxserver.domain.question.Question;
-import com.onetuks.csphinxserver.domain.question.TimeLimit;
 import com.onetuks.csphinxserver.domain.question.Topic;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,8 +28,7 @@ public class QuestionFixture {
         createTitle(),
         createDescription(),
         createDifficulty(),
-        createTimeLimit(),
-        createCategory(),
+        createAnswerType(),
         createTopic(),
         createTags(),
         createUpdatedAt(),
@@ -45,8 +43,7 @@ public class QuestionFixture {
         question.title(),
         question.description(),
         question.difficulty(),
-        question.timeLimit().seconds(),
-        question.category(),
+        question.answerType(),
         question.topic(),
         question.tags());
   }
@@ -57,8 +54,7 @@ public class QuestionFixture {
         question.title(),
         question.description(),
         question.difficulty(),
-        question.timeLimit().seconds(),
-        question.category(),
+        question.answerType(),
         question.topic(),
         question.tags());
   }
@@ -75,12 +71,8 @@ public class QuestionFixture {
     return Difficulty.values()[random.nextInt(Difficulty.values().length)];
   }
 
-  private static TimeLimit createTimeLimit() {
-    return new TimeLimit(random.nextInt(100) + 1);
-  }
-
-  private static Category createCategory() {
-    return Category.values()[random.nextInt(Category.values().length)];
+  private static AnswerType createAnswerType() {
+    return AnswerType.values()[random.nextInt(AnswerType.values().length)];
   }
 
   private static Topic createTopic() {
