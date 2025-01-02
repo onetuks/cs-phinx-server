@@ -2,10 +2,10 @@ package com.onetuks.csphinxserver.adapter.in.controller;
 
 import com.onetuks.csphinxserver.adapter.in.controller.dto.Collections;
 import com.onetuks.csphinxserver.application.CollectionService;
-import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
-import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
+import com.onetuks.csphinxserver.application.command.collection.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.collection.CollectionEditCommand;
 import com.onetuks.csphinxserver.application.port.in.CollectionUseCases;
-import com.onetuks.csphinxserver.domain.question.Collection;
+import com.onetuks.csphinxserver.domain.collection.Collection;
 import java.net.URI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

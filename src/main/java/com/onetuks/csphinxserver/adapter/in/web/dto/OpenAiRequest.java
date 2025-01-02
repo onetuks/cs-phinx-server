@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.adapter.in.web;
+package com.onetuks.csphinxserver.adapter.in.web.dto;
 
 import java.util.List;
 

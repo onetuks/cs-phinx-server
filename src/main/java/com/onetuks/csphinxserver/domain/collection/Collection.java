@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.domain.question;
+package com.onetuks.csphinxserver.domain.collection;
 
 import java.util.Set;
 

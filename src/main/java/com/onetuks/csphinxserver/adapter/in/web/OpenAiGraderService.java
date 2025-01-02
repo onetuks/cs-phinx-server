@@ -1,6 +1,8 @@
 package com.onetuks.csphinxserver.adapter.in.web;
 
-import com.onetuks.csphinxserver.adapter.in.web.OpenAiRequest.Message;
+import com.onetuks.csphinxserver.adapter.in.web.dto.OpenAiRequest;
+import com.onetuks.csphinxserver.adapter.in.web.dto.OpenAiRequest.Message;
+import com.onetuks.csphinxserver.adapter.in.web.dto.OpenAiResponse;
 import com.onetuks.csphinxserver.global.config.OpenAiConfig;
 import com.onetuks.csphinxserver.global.util.URIBuilder;
 import java.util.List;

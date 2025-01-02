@@ -1,6 +1,6 @@
-package com.onetuks.csphinxserver.adapter.out.persistence.entity.question;
+package com.onetuks.csphinxserver.adapter.out.persistence.entity;
 
-import com.onetuks.csphinxserver.domain.question.CollectionType;
+import com.onetuks.csphinxserver.domain.collection.CollectionType;
 import jakarta.persistence.Id;
 import java.util.Set;
 import lombok.AccessLevel;

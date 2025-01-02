@@ -1,9 +1,9 @@
 package com.onetuks.csphinxserver.fixture;
 
-import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
-import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
-import com.onetuks.csphinxserver.domain.question.Collection;
-import com.onetuks.csphinxserver.domain.question.CollectionType;
+import com.onetuks.csphinxserver.application.command.collection.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.collection.CollectionEditCommand;
+import com.onetuks.csphinxserver.domain.collection.Collection;
+import com.onetuks.csphinxserver.domain.collection.CollectionType;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;

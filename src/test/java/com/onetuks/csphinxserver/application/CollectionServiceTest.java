@@ -7,10 +7,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
-import com.onetuks.csphinxserver.application.command.question.CollectionAddCommand;
-import com.onetuks.csphinxserver.application.command.question.CollectionEditCommand;
-import com.onetuks.csphinxserver.domain.question.Collection;
-import com.onetuks.csphinxserver.domain.question.CollectionType;
+import com.onetuks.csphinxserver.application.command.collection.CollectionAddCommand;
+import com.onetuks.csphinxserver.application.command.collection.CollectionEditCommand;
+import com.onetuks.csphinxserver.domain.collection.Collection;
+import com.onetuks.csphinxserver.domain.collection.CollectionType;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.util.List;
 import java.util.stream.IntStream;

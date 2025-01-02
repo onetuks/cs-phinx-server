@@ -1,4 +1,4 @@
-package com.onetuks.csphinxserver.domain.question;
+package com.onetuks.csphinxserver.domain.collection;
 
 public enum CollectionType {
   TOPIC_POINT, // 과목별 싹싹 모음집

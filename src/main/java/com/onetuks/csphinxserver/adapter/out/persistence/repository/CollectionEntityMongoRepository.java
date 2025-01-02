@@ -1,6 +1,6 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.repository;
 
-import com.onetuks.csphinxserver.adapter.out.persistence.entity.question.CollectionEntity;
+import com.onetuks.csphinxserver.adapter.out.persistence.entity.CollectionEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

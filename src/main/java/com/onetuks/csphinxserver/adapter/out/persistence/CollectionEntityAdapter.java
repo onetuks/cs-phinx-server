@@ -3,7 +3,7 @@ package com.onetuks.csphinxserver.adapter.out.persistence;
 import com.onetuks.csphinxserver.adapter.out.persistence.converter.CollectionConverter;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.CollectionEntityMongoRepository;
 import com.onetuks.csphinxserver.application.port.out.CollectionPort;
-import com.onetuks.csphinxserver.domain.question.Collection;
+import com.onetuks.csphinxserver.domain.collection.Collection;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

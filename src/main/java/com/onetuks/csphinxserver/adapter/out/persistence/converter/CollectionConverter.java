@@ -1,7 +1,7 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.converter;
 
-import com.onetuks.csphinxserver.adapter.out.persistence.entity.question.CollectionEntity;
-import com.onetuks.csphinxserver.domain.question.Collection;
+import com.onetuks.csphinxserver.adapter.out.persistence.entity.CollectionEntity;
+import com.onetuks.csphinxserver.domain.collection.Collection;
 import org.springframework.stereotype.Component;
 
 @Component
