@@ -1,20 +1,11 @@
 package com.onetuks.csphinxserver.application;
 
-import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.ChoiceAnswerEditCommand;
-import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.DescriptiveAnswerEditCommand;
-import com.onetuks.csphinxserver.application.command.answer.ShortAnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.ShortAnswerEditCommand;
+import com.onetuks.csphinxserver.application.command.AnswerCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
+import com.onetuks.csphinxserver.application.port.out.ProblemPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
-import com.onetuks.csphinxserver.domain.answer.AnswerType;
-import com.onetuks.csphinxserver.domain.answer.ChoiceAnswer;
-import com.onetuks.csphinxserver.domain.answer.DescriptiveAnswer;
-import com.onetuks.csphinxserver.domain.answer.ShortAnswer;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,97 +13,45 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnswerService implements AnswerUseCases {
 
   private final AnswerPort answerPort;
+  private final ProblemPort problemPort;
 
-  public AnswerService(AnswerPort answerPort) {
+  public AnswerService(AnswerPort answerPort, ProblemPort problemPort) {
     this.answerPort = answerPort;
+    this.problemPort = problemPort;
   }
 
   @Override
   @Transactional
-  public String addChoiceAnswer(ChoiceAnswerAddCommand command) {
-    return answerPort
-        .create(
-            new ChoiceAnswer(
-                null,
-                command.questionId(),
-                AnswerType.CHOICE,
-                command.answerNumber(),
-                LocalDateTime.now()))
-        .answerId();
-  }
-
-  @Override
-  @Transactional
-  public String addShortAnswer(ShortAnswerAddCommand command) {
-    return answerPort
-        .create(
-            new ShortAnswer(
-                null,
-                command.questionId(),
-                AnswerType.SHORT,
-                command.answerWord(),
-                LocalDateTime.now()))
-        .answerId();
-  }
-
-  @Override
-  @Transactional
-  public String addDescriptiveAnswer(DescriptiveAnswerAddCommand command) {
-    return answerPort
-        .create(
-            new DescriptiveAnswer(
-                null,
-                command.questionId(),
-                AnswerType.DESCRIPTION,
-                command.embeddingValue(),
-                LocalDateTime.now()))
-        .answerId();
+  public Answer addAnswer(AnswerCommand command) {
+    return answerPort.create(
+        new Answer(
+            null,
+            problemPort.read(command.problemId()),
+            command.answerType(),
+            command.answerValues(),
+            LocalDateTime.now()));
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<Answer> searchAnswers(String questionId) {
-    return answerPort.read(questionId);
+  public Answer searchAnswer(long problemId) {
+    return answerPort.read(problemId);
   }
 
   @Override
   @Transactional
-  public void editChoiceAnswer(String answerId, ChoiceAnswerEditCommand command) {
+  public void editAnswer(long answerId, AnswerCommand command) {
     answerPort.update(
-        new ChoiceAnswer(
+        new Answer(
             answerId,
-            command.questionId(),
-            AnswerType.CHOICE,
-            command.answerNumber(),
+            problemPort.read(command.problemId()),
+            command.answerType(),
+            command.answerValues(),
             LocalDateTime.now()));
   }
 
   @Override
-  @Transactional
-  public void editShortAnswer(String answerId, ShortAnswerEditCommand command) {
-    answerPort.update(
-        new ShortAnswer(
-            answerId,
-            command.questionId(),
-            AnswerType.SHORT,
-            command.answerWord(),
-            LocalDateTime.now()));
-  }
-
-  @Override
-  @Transactional
-  public void editDescriptiveAnswer(String answerId, DescriptiveAnswerEditCommand command) {
-    answerPort.update(
-        new DescriptiveAnswer(
-            answerId,
-            command.questionId(),
-            AnswerType.DESCRIPTION,
-            command.embeddingValue(),
-            LocalDateTime.now()));
-  }
-
-  @Override
-  public void removeAnswer(String answerId) {
+  public void removeAnswer(long answerId) {
     answerPort.delete(answerId);
   }
 }

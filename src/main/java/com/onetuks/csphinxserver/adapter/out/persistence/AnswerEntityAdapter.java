@@ -1,20 +1,20 @@
 package com.onetuks.csphinxserver.adapter.out.persistence;
 
 import com.onetuks.csphinxserver.adapter.out.persistence.converter.AnswerConverter;
-import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityMongoRepository;
+import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityJpaRepository;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
-import java.util.List;
+import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AnswerEntityAdapter implements AnswerPort {
 
-  private final AnswerEntityMongoRepository answerRepository;
+  private final AnswerEntityJpaRepository answerRepository;
   private final AnswerConverter answerConverter;
 
   public AnswerEntityAdapter(
-      AnswerEntityMongoRepository answerRepository, AnswerConverter answerConverter) {
+      AnswerEntityJpaRepository answerRepository, AnswerConverter answerConverter) {
     this.answerConverter = answerConverter;
     this.answerRepository = answerRepository;
   }
@@ -25,10 +25,11 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public List<Answer> read(String questionId) {
-    return answerRepository.findAllByQuestionId(questionId).stream()
-        .map(answerConverter::toDomain)
-        .toList();
+  public Answer read(long problemId) {
+    return answerConverter.toDomain(
+        answerRepository
+            .findByProblemEntityProblemId(problemId)
+            .orElseThrow(NoSuchEntityException::new));
   }
 
   @Override
@@ -37,7 +38,7 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public void delete(String answerId) {
+  public void delete(long answerId) {
     answerRepository.deleteById(answerId);
   }
 }

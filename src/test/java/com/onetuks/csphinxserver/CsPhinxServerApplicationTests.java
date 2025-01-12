@@ -1,8 +1,8 @@
 package com.onetuks.csphinxserver;
 
 import com.onetuks.csphinxserver.application.AnswerService;
-import com.onetuks.csphinxserver.application.CollectionService;
-import com.onetuks.csphinxserver.application.QuestionService;
+import com.onetuks.csphinxserver.application.ProblemService;
+import com.onetuks.csphinxserver.application.WorkbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 @SpringBootTest
 public class CsPhinxServerApplicationTests {
 
-  @Autowired protected QuestionService questionService;
+  @Autowired protected ProblemService problemService;
   @Autowired protected AnswerService answerService;
-  @Autowired protected CollectionService collectionService;
+  @Autowired protected WorkbookService workbookService;
 }
