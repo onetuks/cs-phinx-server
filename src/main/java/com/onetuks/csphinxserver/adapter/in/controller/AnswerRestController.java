@@ -1,8 +1,7 @@
 package com.onetuks.csphinxserver.adapter.in.controller;
 
 import com.onetuks.csphinxserver.application.AnswerService;
-import com.onetuks.csphinxserver.application.command.answer.AnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.AnswerEditCommand;
+import com.onetuks.csphinxserver.application.command.AnswerCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.domain.answer.Answer;
 import jakarta.validation.Valid;
@@ -34,29 +33,29 @@ public class AnswerRestController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewChoiceAnswer(@Valid @RequestBody AnswerAddCommand command) {
-    String answerId = answerUseCases.addAnswer(command);
+  public ResponseEntity<String> postNewChoiceAnswer(@Valid @RequestBody AnswerCommand command) {
+    Answer answer = answerUseCases.addAnswer(command);
 
-    return ResponseEntity.created(URI.create("/api/answers/choices/" + answerId)).build();
+    return ResponseEntity.created(URI.create("/api/answers/choices/" + answer.answerId())).build();
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Answer> getAnswer(@RequestParam("question-id") String questionId) {
-    Answer answer = answerUseCases.searchAnswer(questionId);
+  public ResponseEntity<Answer> getAnswer(@RequestParam("problem-id") Long problemId) {
+    Answer answer = answerUseCases.searchAnswer(problemId);
 
     return ResponseEntity.ok(answer);
   }
 
   @PatchMapping(path = "/{answer-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> patchAnswer(
-      @PathVariable("answer-id") String answerId, @RequestBody AnswerEditCommand command) {
+      @PathVariable("answer-id") Long answerId, @RequestBody AnswerCommand command) {
     answerUseCases.editAnswer(answerId, command);
 
     return ResponseEntity.noContent().build();
   }
 
   @DeleteMapping(path = "/{answer-id}")
-  public ResponseEntity<Void> deleteAnswer(@PathVariable("answer-id") String answerId) {
+  public ResponseEntity<Void> deleteAnswer(@PathVariable("answer-id") Long answerId) {
     answerService.removeAnswer(answerId);
 
     return ResponseEntity.noContent().build();

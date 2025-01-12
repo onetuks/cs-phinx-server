@@ -7,19 +7,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnswerConverter {
 
+  private final ProblemConverter problemConverter;
+
+  public AnswerConverter(ProblemConverter problemConverter) {
+    this.problemConverter = problemConverter;
+  }
+
   public AnswerEntity toEntity(Answer domain) {
     return new AnswerEntity(
         domain.answerId(),
-        domain.questionId(),
+        problemConverter.toEntity(domain.problem()),
         domain.answerType(),
-        domain.answerValues(),
-        domain.updatedAt());
+        domain.answerValues());
   }
 
   public Answer toDomain(AnswerEntity entity) {
     return new Answer(
-        entity.getId(),
-        entity.getQuestionId(),
+        entity.getAnswerId(),
+        problemConverter.toDomain(entity.getProblemEntity()),
         entity.getAnswerType(),
         entity.getAnswerValues(),
         entity.getUpdatedAt());

@@ -1,7 +1,6 @@
 package com.onetuks.csphinxserver.adapter.in.controller;
 
 import com.onetuks.csphinxserver.adapter.in.web.OpenAiGraderService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +18,9 @@ public class HomeRestController {
     return "Hello, this is CSphinx Server!";
   }
 
-  @GetMapping(path = "/test")
-  public ResponseEntity<String> test() {
-    String chatCompletion = openAiGraderService.getChatCompletion("DB 인덱스에 대해서 설명해줘.");
-    return ResponseEntity.ok(chatCompletion);
-  }
+  //  @GetMapping(path = "/test")
+  //  public ResponseEntity<String> test() {
+  //    String chatCompletion = openAiGraderService.getChatCompletion("DB 인덱스에 대해서 설명해줘.");
+  //    return ResponseEntity.ok(chatCompletion);
+  //  }
 }

@@ -1,9 +1,9 @@
 package com.onetuks.csphinxserver.application;
 
-import com.onetuks.csphinxserver.application.command.answer.AnswerAddCommand;
-import com.onetuks.csphinxserver.application.command.answer.AnswerEditCommand;
+import com.onetuks.csphinxserver.application.command.AnswerCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
+import com.onetuks.csphinxserver.application.port.out.ProblemPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
@@ -13,45 +13,45 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnswerService implements AnswerUseCases {
 
   private final AnswerPort answerPort;
+  private final ProblemPort problemPort;
 
-  public AnswerService(AnswerPort answerPort) {
+  public AnswerService(AnswerPort answerPort, ProblemPort problemPort) {
     this.answerPort = answerPort;
+    this.problemPort = problemPort;
   }
 
   @Override
   @Transactional
-  public String addAnswer(AnswerAddCommand command) {
-    return answerPort
-        .create(
-            new Answer(
-                null,
-                command.questionId(),
-                command.answerType(),
-                command.answerValues(),
-                LocalDateTime.now()))
-        .answerId();
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Answer searchAnswer(String questionId) {
-    return answerPort.read(questionId);
-  }
-
-  @Override
-  @Transactional
-  public void editAnswer(String answerId, AnswerEditCommand command) {
-    answerPort.update(
+  public Answer addAnswer(AnswerCommand command) {
+    return answerPort.create(
         new Answer(
-            answerId,
-            command.questionId(),
+            null,
+            problemPort.read(command.problemId()),
             command.answerType(),
             command.answerValues(),
             LocalDateTime.now()));
   }
 
   @Override
-  public void removeAnswer(String answerId) {
+  @Transactional(readOnly = true)
+  public Answer searchAnswer(long problemId) {
+    return answerPort.read(problemId);
+  }
+
+  @Override
+  @Transactional
+  public void editAnswer(long answerId, AnswerCommand command) {
+    answerPort.update(
+        new Answer(
+            answerId,
+            problemPort.read(command.problemId()),
+            command.answerType(),
+            command.answerValues(),
+            LocalDateTime.now()));
+  }
+
+  @Override
+  public void removeAnswer(long answerId) {
     answerPort.delete(answerId);
   }
 }

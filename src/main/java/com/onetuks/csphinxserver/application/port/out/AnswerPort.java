@@ -8,9 +8,9 @@ public interface AnswerPort {
 
   Answer create(Answer answer);
 
-  Answer read(String questionId);
+  Answer read(long problemId);
 
   void update(Answer answer);
 
-  void delete(String answerId);
+  void delete(long answerId);
 }

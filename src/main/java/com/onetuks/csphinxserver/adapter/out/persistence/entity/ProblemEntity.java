@@ -1,19 +1,17 @@
 package com.onetuks.csphinxserver.adapter.out.persistence.entity;
 
-import com.onetuks.csphinxserver.domain.answer.AnswerType;
+import com.onetuks.csphinxserver.domain.problem.Difficulty;
+import com.onetuks.csphinxserver.domain.problem.Topic;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,23 +22,32 @@ import org.hibernate.annotations.Type;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-@Table(name = "answers")
-public class AnswerEntity extends BaseEntity {
+@Table(name = "problems")
+public class ProblemEntity extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "answer_id", nullable = false)
-  private Long answerId;
+  @Column(name = "problem_id", nullable = false)
+  private Long problemId;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "problem_id", nullable = false)
-  private ProblemEntity problemEntity;
+  @Column(name = "title", nullable = false)
+  private String title;
+
+  @Column(name = "description", nullable = false)
+  private String description;
 
   @Enumerated(value = EnumType.STRING)
-  @Column(name = "answer_type", nullable = false)
-  private AnswerType answerType;
+  @Column(name = "difficulty", nullable = false)
+  private Difficulty difficulty;
+
+  @Enumerated(value = EnumType.STRING)
+  @Column(name = "topic", nullable = false)
+  private Topic topic;
 
   @Type(JsonType.class)
-  @Column(name = "answer_values", nullable = false)
-  private List<String> answerValues;
+  @Column(name = "tags", nullable = false)
+  private Set<String> tags;
+
+  @Column(name = "is_active")
+  private Boolean isActive;
 }

@@ -18,18 +18,6 @@ public class ErrorResponse {
   private List<FieldDetailError> fieldDetailErrors;
   private String reason;
 
-  public static ErrorResponse of(final ErrorCode errorCode, final BindingResult bindingResult) {
-    return new ErrorResponse(errorCode, FieldDetailError.of(bindingResult));
-  }
-
-  public static ErrorResponse of(ErrorCode errorCode) {
-    return new ErrorResponse(errorCode);
-  }
-
-  public static ErrorResponse of(final ErrorCode errorCode, final String reason) {
-    return new ErrorResponse(errorCode, reason);
-  }
-
   private ErrorResponse(final ErrorCode errorCode) {
     this.code = errorCode.getCode();
     this.message = errorCode.getMessage();
@@ -48,12 +36,30 @@ public class ErrorResponse {
     this.fieldDetailErrors = fieldDetailErrors;
   }
 
+  public static ErrorResponse of(final ErrorCode errorCode, final BindingResult bindingResult) {
+    return new ErrorResponse(errorCode, FieldDetailError.of(bindingResult));
+  }
+
+  public static ErrorResponse of(ErrorCode errorCode) {
+    return new ErrorResponse(errorCode);
+  }
+
+  public static ErrorResponse of(final ErrorCode errorCode, final String reason) {
+    return new ErrorResponse(errorCode, reason);
+  }
+
   @Getter
   public static class FieldDetailError {
 
     private final String field;
     private final String value;
     private final String reason;
+
+    private FieldDetailError(String field, String value, String reason) {
+      this.field = field;
+      this.value = value;
+      this.reason = reason;
+    }
 
     private static List<FieldDetailError> of(final BindingResult bindingResult) {
       final List<org.springframework.validation.FieldError> fieldErrors =
@@ -66,12 +72,6 @@ public class ErrorResponse {
                       error.getRejectedValue() == null ? "" : error.getRejectedValue().toString(),
                       error.getDefaultMessage()))
           .toList();
-    }
-
-    private FieldDetailError(String field, String value, String reason) {
-      this.field = field;
-      this.value = value;
-      this.reason = reason;
     }
   }
 }
