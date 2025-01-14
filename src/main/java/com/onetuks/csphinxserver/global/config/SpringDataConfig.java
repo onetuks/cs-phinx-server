@@ -2,10 +2,13 @@ package com.onetuks.csphinxserver.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode;
 
 @Configuration
 @EnableJpaAuditing
-public class DatabaseConfig {
+@EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
+public class SpringDataConfig {
 
   //  @Bean
   //  public MappingMongoConverter mappingMongoConverter(
