@@ -33,10 +33,10 @@ public class AnswerRestController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postNewChoiceAnswer(@Valid @RequestBody AnswerCommand command) {
+  public ResponseEntity<String> postNewAnswer(@Valid @RequestBody AnswerCommand command) {
     Answer answer = answerUseCases.addAnswer(command);
 
-    return ResponseEntity.created(URI.create("/api/answers/choices/" + answer.answerId())).build();
+    return ResponseEntity.created(URI.create("/api/answers/" + answer.answerId())).build();
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

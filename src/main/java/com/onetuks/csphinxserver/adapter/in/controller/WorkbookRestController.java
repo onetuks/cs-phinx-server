@@ -31,7 +31,7 @@ public class WorkbookRestController {
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Workbook> postNewWorkbook(@RequestBody WorkbookCommand command) {
+  public ResponseEntity<URI> postNewWorkbook(@RequestBody WorkbookCommand command) {
     Workbook workbook = workbookUseCases.addWorkbook(command);
 
     return ResponseEntity.created(URI.create("/api/workbooks/" + workbook.workbookId())).build();
