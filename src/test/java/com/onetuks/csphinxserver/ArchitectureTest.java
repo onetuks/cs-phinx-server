@@ -173,6 +173,8 @@ class ArchitectureTest {
           ArchRuleDefinition.classes()
               .that()
               .resideInAnyPackage("..config")
+              .and()
+              .areNotAnonymousClasses()
               .should()
               .haveSimpleNameEndingWith("Config")
               .andShould()
