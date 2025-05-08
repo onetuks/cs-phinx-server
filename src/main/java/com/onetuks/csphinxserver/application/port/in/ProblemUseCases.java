@@ -1,6 +1,7 @@
 package com.onetuks.csphinxserver.application.port.in;
 
 import com.onetuks.csphinxserver.application.command.ProblemCommand;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.problem.Problem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ public interface ProblemUseCases {
 
   Problem searchProblem(long problemId);
 
-  Page<Problem> searchProblems(Pageable pageable);
+  Page<Problem> searchProblems(AnswerType answerType, Pageable pageable);
 
   void editProblem(long problemId, ProblemCommand command);
 
