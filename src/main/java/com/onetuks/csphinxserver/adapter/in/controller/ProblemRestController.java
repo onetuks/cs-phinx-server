@@ -49,7 +49,7 @@ public class ProblemRestController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<Problem>> getProblems(
-      @RequestParam(name = "answer-type") AnswerType answerType,
+      @RequestParam(name = "answer-type", required = false) AnswerType answerType,
       @PageableDefault Pageable pageable) {
     Page<Problem> problems = problemUseCases.searchProblems(answerType, pageable);
 
