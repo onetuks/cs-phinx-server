@@ -25,16 +25,16 @@ spring:
     show-sql: true
     open-in-view: false
 
-  data:
-    mongodb:
-      uri: mongodb://${DB_HOST:localhost}:27017/csphinx
-      database: csphinx
-      username: ${DB_USERNAME:test}
-      password: ${DB_PASSWORD:test}
+#  data:
+#    mongodb:
+#      uri: mongodb://${DB_HOST:localhost}:27017/csphinx
+#      database: csphinx
+#      username: ${DB_USERNAME:test}
+#      password: ${DB_PASSWORD:test}
 
-openai:
-  api-key: ${OPEN_AI_API_KEY}
-  base-url: https://api.openai.com/v1/chat/completions
+#openai:
+#  api-key: ${OPEN_AI_API_KEY}
+#  base-url: https://api.openai.com/v1/chat/completions
 
 logging:
   level:

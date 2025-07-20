@@ -16,6 +16,14 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: myroot
+          MYSQL_DATABASE: csphinx
+        ports: ['3306:3306']
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
