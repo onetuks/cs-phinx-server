@@ -16,6 +16,25 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    services:
+      mysql-db:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: csphinx
+          MYSQL_USER: myroot
+          MYSQL_PASSWORD: secret
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    env:
+      DB_HOST: mysql-db
+      DB_USERNAME: myroot
+      DB_PASSWORD: secret
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
@@ -28,6 +47,19 @@ jobs:
             application:
               - '**/build.gradle'
               - '**/src/**'
+
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping -h "$DB_HOST" --silent;
+            do echo "Waiting for MySQL on $DB_HOST..."
+            sleep 2
+          done
+        shell: bash
+
+      - name: Check Docker access
+        run: |
+          docker version
+          docker ps -a
 
       - name: Gradlew exec permission grant
         if: steps.changes.outputs.application == 'true'
@@ -50,7 +82,11 @@ jobs:
           CLOUD_CONFIG_URL: ${{ secrets.CLOUD_CONFIG_URL }}
           ACTUATOR_PORT: ${{ secrets.ACTUATOR_PORT }}
         run: |
-          ./gradlew build spotlessApply --parallel
+          ./gradlew build \
+            -Dspring.datasource.url=jdbc:mysql://$DB_HOST:3306/csphinx \
+            -Dspring.datasource.username=$DB_USER \
+            -Dspring.datasource.password=$DB_PASS \
+            spotlessApply --parallel
 
       - name: Coverage Report
         if: steps.changes.outputs.application == 'true'
