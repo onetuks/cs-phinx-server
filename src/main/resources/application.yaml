@@ -36,6 +36,9 @@ spring:
 #  api-key: ${OPEN_AI_API_KEY}
 #  base-url: https://api.openai.com/v1/chat/completions
 
+grade:
+  base-url: http://localhost:8000/api/grade
+
 logging:
   level:
     org:
