@@ -4,7 +4,9 @@ import com.onetuks.csphinxserver.adapter.out.persistence.converter.AnswerConvert
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityJpaRepository;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.domain.answer.Answer;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,6 +32,13 @@ public class AnswerEntityAdapter implements AnswerPort {
         answerRepository
             .findByProblemEntityProblemId(problemId)
             .orElseThrow(NoSuchEntityException::new));
+  }
+
+  @Override
+  public List<Answer> readAll(AnswerType answerType) {
+    return answerRepository.findAllByAnswerType(answerType).stream()
+        .map(answerConverter::toDomain)
+        .toList();
   }
 
   @Override

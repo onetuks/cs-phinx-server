@@ -2,6 +2,7 @@ package com.onetuks.csphinxserver.adapter.in.controller;
 
 import com.onetuks.csphinxserver.application.command.ProblemCommand;
 import com.onetuks.csphinxserver.application.port.in.ProblemUseCases;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.problem.Problem;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,8 +48,10 @@ public class ProblemRestController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<Problem>> getProblems(@PageableDefault Pageable pageable) {
-    Page<Problem> problems = problemUseCases.searchProblems(pageable);
+  public ResponseEntity<Page<Problem>> getProblems(
+      @RequestParam(name = "answer-type", required = false) AnswerType answerType,
+      @PageableDefault Pageable pageable) {
+    Page<Problem> problems = problemUseCases.searchProblems(answerType, pageable);
 
     return ResponseEntity.ok(problems);
   }

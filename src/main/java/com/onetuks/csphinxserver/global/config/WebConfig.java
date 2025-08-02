@@ -16,7 +16,7 @@ public class WebConfig {
         registry
             .addMapping("/**")
             .allowedOrigins("*")
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .exposedHeaders("Authorization", "Content-Type", "Location")
             .maxAge(3600);

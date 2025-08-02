@@ -5,17 +5,24 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
+import com.onetuks.csphinxserver.adapter.out.persistence.entity.AnswerEntity;
+import com.onetuks.csphinxserver.adapter.out.persistence.entity.ProblemEntity;
 import com.onetuks.csphinxserver.application.command.ProblemCommand;
+import com.onetuks.csphinxserver.domain.answer.AnswerType;
+import com.onetuks.csphinxserver.domain.problem.Difficulty;
 import com.onetuks.csphinxserver.domain.problem.Problem;
+import com.onetuks.csphinxserver.domain.problem.Topic;
 import com.onetuks.csphinxserver.fixture.ProblemFixture;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 class ProblemServiceTest extends CsPhinxServerApplicationTests {
 
@@ -78,12 +85,47 @@ class ProblemServiceTest extends CsPhinxServerApplicationTests {
 
     // When
     long results =
-        problemService.searchProblems(pageable).getContent().stream()
+        problemService.searchProblems(null, pageable).getContent().stream()
             .filter(problem -> problemIds.contains(problem.problemId()))
             .count();
 
     // Then
     assertThat(results).isEqualTo(problems.size());
+  }
+
+  @Test
+  @DisplayName("답안타입에 따라 문제를 조회한다.")
+  @Transactional
+  void searchProblems_ByAnswerType() {
+    // Given
+    AnswerType answerType = AnswerType.SHORT;
+    Pageable pageable = PageRequest.of(0, 100);
+    int expected = 5;
+    IntStream.range(0, expected)
+        .mapToObj(
+            i ->
+                problemRepository.save(
+                    new ProblemEntity(
+                        null,
+                        "타이틀",
+                        "디스크립션",
+                        Difficulty.EASY,
+                        Topic.ALGORITHMS,
+                        Set.of("태그"),
+                        true)))
+        .forEach(
+            problemEntity ->
+                answerRepository.save(
+                    new AnswerEntity(null, problemEntity, answerType, List.of("이거시 정답"))));
+
+    entityManager.flush();
+    entityManager.clear();
+
+    // When
+    List<Problem> results = problemService.searchProblems(answerType, pageable).getContent();
+
+    // Then
+    assertThat(results).hasSizeGreaterThanOrEqualTo(expected);
   }
 
   @Test
