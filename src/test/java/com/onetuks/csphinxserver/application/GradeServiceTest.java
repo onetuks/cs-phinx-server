@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.onetuks.csphinxserver.CsPhinxServerApplicationTests;
+import com.onetuks.csphinxserver.application.command.GradeCommand;
 import com.onetuks.csphinxserver.domain.answer.Answer;
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.grader.Grade;
@@ -30,13 +31,14 @@ class GradeServiceTest extends CsPhinxServerApplicationTests {
   @DisplayName("올바른 유저의 응답을 채점한다")
   void gradeUserAnswer() {
     // Given
-    String userAnswer = answer.answerValues().getFirst();
-    Grade expected = new Grade(userAnswer, answer.answerValues(), 100, "정답입니다");
+    GradeCommand command = new GradeCommand(answer.answerValues().getFirst());
+    Grade expected = new Grade(command.userAnswer(), answer.answerValues(), 100, "정답입니다");
 
-    given(gradeModuleAdapter.readGrade(userAnswer, answer.answerValues())).willReturn(expected);
+    given(gradeModuleAdapter.readGrade(command.userAnswer(), answer.answerValues()))
+        .willReturn(expected);
 
     // When
-    Grade result = gradeService.gradeUserAnswer(answer.answerId(), userAnswer);
+    Grade result = gradeService.gradeUserAnswer(answer.answerId(), command);
 
     // Then
     assertThat(result).isNotNull().isEqualTo(expected);

@@ -1,5 +1,6 @@
 package com.onetuks.csphinxserver.application;
 
+import com.onetuks.csphinxserver.application.command.GradeCommand;
 import com.onetuks.csphinxserver.application.port.in.GradeUseCases;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.application.port.out.GradePort;
@@ -19,7 +20,7 @@ public class GradeService implements GradeUseCases {
   }
 
   @Transactional
-  public Grade gradeUserAnswer(Long answerId, String userAnswer) {
-    return gradePort.readGrade(userAnswer, answerPort.read(answerId).answerValues());
+  public Grade gradeUserAnswer(Long answerId, GradeCommand command) {
+    return gradePort.readGrade(command.userAnswer(), answerPort.read(answerId).answerValues());
   }
 }

@@ -1,5 +1,7 @@
 package com.onetuks.csphinxserver.adapter.out.web;
 
+import com.onetuks.csphinxserver.adapter.out.web.dto.GradeRequest;
+import com.onetuks.csphinxserver.adapter.out.web.dto.GradeResponse;
 import com.onetuks.csphinxserver.application.port.out.GradePort;
 import com.onetuks.csphinxserver.domain.grader.Grade;
 import com.onetuks.csphinxserver.global.config.GradeConfig;
@@ -24,13 +26,14 @@ public class GradeModuleAdapter implements GradePort {
 
   @Override
   public Grade readGrade(String userAnswer, List<String> desirableAnswers) {
-    return Objects.requireNonNull(
-        webClient
-            .put()
-            .uri(uriBuilder.buildUri(gradeConfig.getBaseUrl()))
-            .bodyValue(Grade.of(userAnswer, desirableAnswers))
-            .retrieve()
-            .bodyToMono(Grade.class)
-            .block());
+    return GradeResponse.from(
+        Objects.requireNonNull(
+            webClient
+                .put()
+                .uri(uriBuilder.buildUri(gradeConfig.getBaseUrl()))
+                .bodyValue(new GradeRequest(userAnswer, desirableAnswers))
+                .retrieve()
+                .bodyToMono(GradeResponse.class)
+                .block()));
   }
 }

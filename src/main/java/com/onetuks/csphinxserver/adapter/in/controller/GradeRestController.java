@@ -1,5 +1,6 @@
 package com.onetuks.csphinxserver.adapter.in.controller;
 
+import com.onetuks.csphinxserver.application.command.GradeCommand;
 import com.onetuks.csphinxserver.application.port.in.GradeUseCases;
 import com.onetuks.csphinxserver.domain.grader.Grade;
 import org.springframework.http.MediaType;
@@ -22,8 +23,8 @@ public class GradeRestController {
 
   @PutMapping(path = "/answers/{answer-id}/grade", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Grade> putUserAnswer(
-      @PathVariable("answer-id") Long answerId, @RequestBody String userAnswer) {
-    Grade grade = gradeUseCases.gradeUserAnswer(answerId, userAnswer);
+      @PathVariable("answer-id") Long answerId, @RequestBody GradeCommand command) {
+    Grade grade = gradeUseCases.gradeUserAnswer(answerId, command);
 
     return ResponseEntity.ok(grade);
   }
