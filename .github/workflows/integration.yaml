@@ -18,7 +18,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build Filter
         uses: dorny/paths-filter@v3
@@ -44,11 +44,6 @@ jobs:
 
       - name: Gradle Build
         if: steps.changes.outputs.application == 'true'
-        env:
-          APP_NAME: ${{ secrets.APP_NAME }}
-          PROFILE: ${{ secrets.PROFILE }}
-          CLOUD_CONFIG_URL: ${{ secrets.CLOUD_CONFIG_URL }}
-          ACTUATOR_PORT: ${{ secrets.ACTUATOR_PORT }}
         run: |
           ./gradlew build --info --stacktrace
 
@@ -62,13 +57,13 @@ jobs:
           min-coverage-overall: 10
           min-coverage-changed-files: 10
           paths: |
-            ${{ github.workspace }}/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+            ${{ github.workspace }}/build/jacoco/jacoco.xml
 
   style-test:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build Filter
         uses: dorny/paths-filter@v3

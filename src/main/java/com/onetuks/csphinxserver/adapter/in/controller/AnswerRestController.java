@@ -1,6 +1,5 @@
 package com.onetuks.csphinxserver.adapter.in.controller;
 
-import com.onetuks.csphinxserver.application.AnswerService;
 import com.onetuks.csphinxserver.application.command.AnswerCommand;
 import com.onetuks.csphinxserver.application.port.in.AnswerUseCases;
 import com.onetuks.csphinxserver.domain.answer.Answer;
@@ -23,11 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnswerRestController {
 
   private final AnswerUseCases answerUseCases;
-  private final AnswerService answerService;
 
-  public AnswerRestController(AnswerUseCases answerUseCases, AnswerService answerService) {
+  public AnswerRestController(AnswerUseCases answerUseCases) {
     this.answerUseCases = answerUseCases;
-    this.answerService = answerService;
   }
 
   @PostMapping(
@@ -56,7 +53,7 @@ public class AnswerRestController {
 
   @DeleteMapping(path = "/{answer-id}")
   public ResponseEntity<Void> deleteAnswer(@PathVariable("answer-id") Long answerId) {
-    answerService.removeAnswer(answerId);
+    answerUseCases.removeAnswer(answerId);
 
     return ResponseEntity.noContent().build();
   }

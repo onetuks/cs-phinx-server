@@ -10,7 +10,9 @@ public interface AnswerPort {
 
   Answer create(Answer answer);
 
-  Answer read(long problemId);
+  Answer readByProblemId(long problemId);
+
+  Answer read(long answerId);
 
   List<Answer> readAll(AnswerType answerType);
 

@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "openai")
-public class OpenAiConfig {
+@ConfigurationProperties(prefix = "grade")
+public class GradeConfig {
 
-  public static final String MODEL_NAME = "gpt-3.5-turbo";
-
-  private String apiKey;
   private String baseUrl;
 }

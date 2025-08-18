@@ -320,7 +320,7 @@ class ArchitectureTest {
     }
 
     @Test
-    @DisplayName("dto 는 오직 in 패키지에서만 의존한다")
+    @DisplayName("dto 는 오직 adapter 패키지에서만 의존한다")
     void dto_HaveDependency_Test() {
       ArchRule rule =
           ArchRuleDefinition.classes()
@@ -328,7 +328,7 @@ class ArchitectureTest {
               .resideInAnyPackage("..dto..")
               .should()
               .onlyHaveDependentClassesThat()
-              .resideInAnyPackage("..in..")
+              .resideInAnyPackage("..adapter..")
               .allowEmptyShould(true);
 
       rule.check(javaClasses);

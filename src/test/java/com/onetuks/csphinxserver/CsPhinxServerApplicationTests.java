@@ -2,13 +2,16 @@ package com.onetuks.csphinxserver;
 
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.AnswerEntityJpaRepository;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.ProblemEntityJpaRepository;
+import com.onetuks.csphinxserver.adapter.out.web.GradeModuleAdapter;
 import com.onetuks.csphinxserver.application.AnswerService;
+import com.onetuks.csphinxserver.application.GradeService;
 import com.onetuks.csphinxserver.application.ProblemService;
 import com.onetuks.csphinxserver.application.WorkbookService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 @Import(TestcontainersConfiguration.class)
@@ -18,8 +21,11 @@ public class CsPhinxServerApplicationTests {
   @Autowired protected ProblemService problemService;
   @Autowired protected AnswerService answerService;
   @Autowired protected WorkbookService workbookService;
+  @Autowired protected GradeService gradeService;
 
   @PersistenceContext protected EntityManager entityManager;
   @Autowired protected ProblemEntityJpaRepository problemRepository;
   @Autowired protected AnswerEntityJpaRepository answerRepository;
+
+  @MockBean protected GradeModuleAdapter gradeModuleAdapter;
 }

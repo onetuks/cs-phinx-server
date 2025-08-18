@@ -35,7 +35,7 @@ public class AnswerService implements AnswerUseCases {
   @Override
   @Transactional(readOnly = true)
   public Answer searchAnswer(long problemId) {
-    return answerPort.read(problemId);
+    return answerPort.readByProblemId(problemId);
   }
 
   @Override

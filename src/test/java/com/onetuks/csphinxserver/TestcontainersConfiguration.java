@@ -12,9 +12,8 @@ class TestcontainersConfiguration {
   @Bean
   @ServiceConnection
   MySQLContainer<?> mysqlContainer() {
-    return new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-        .withDatabaseName("csphinx")
-        .withUsername("myroot")
-        .withPassword("secret");
+    try (MySQLContainer<?> container = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))) {
+      return container.withDatabaseName("csphinx").withUsername("myroot").withPassword("secret");
+    }
   }
 }

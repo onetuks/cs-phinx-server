@@ -27,11 +27,17 @@ public class AnswerEntityAdapter implements AnswerPort {
   }
 
   @Override
-  public Answer read(long problemId) {
+  public Answer readByProblemId(long problemId) {
     return answerConverter.toDomain(
         answerRepository
             .findByProblemEntityProblemId(problemId)
             .orElseThrow(NoSuchEntityException::new));
+  }
+
+  @Override
+  public Answer read(long answerId) {
+    return answerConverter.toDomain(
+        answerRepository.findById(answerId).orElseThrow(NoSuchEntityException::new));
   }
 
   @Override

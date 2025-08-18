@@ -22,30 +22,13 @@ spring:
         use_sql_comments: true
     hibernate:
       ddl-auto: none
-    show-sql: true
     open-in-view: false
 
-#  data:
-#    mongodb:
-#      uri: mongodb://${DB_HOST:localhost}:27017/csphinx
-#      database: csphinx
-#      username: ${DB_USERNAME:test}
-#      password: ${DB_PASSWORD:test}
-
-#openai:
-#  api-key: ${OPEN_AI_API_KEY}
-#  base-url: https://api.openai.com/v1/chat/completions
+grade:
+  base-url: http://${GRADER_HOST:localhost}:8000/api/grader
 
 logging:
   level:
     org:
       hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-      springframework:
-        data:
-          mongodb:
-            core: DEBUG
+        SQL: ${LOG_LEVEL:INFO}

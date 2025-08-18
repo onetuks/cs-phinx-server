@@ -8,13 +8,4 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerial
 @Configuration
 @EnableJpaAuditing
 @EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
-public class SpringDataConfig {
-
-  //  @Bean
-  //  public MappingMongoConverter mappingMongoConverter(
-  //      MongoDatabaseFactory mongoDatabaseFactory, MongoMappingContext mongoMappingContext) {
-  //    DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDatabaseFactory);
-  //    return new MappingMongoConverter(dbRefResolver, mongoMappingContext);
-  //    //    converter.setTypeMapper(new DefaultMongoTypeMapper(null));
-  //  }
-}
+public class SpringDataConfig {}

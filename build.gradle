@@ -38,9 +38,6 @@ jar {
 
 dependencies {
 
-    // Netty/Resolver/DNS/Native/MacOS
-    implementation('io.netty:netty-resolver-dns-native-macos:4.1.110.Final:osx-aarch_64')
-
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -59,7 +56,6 @@ dependencies {
     // DataBase
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // Flyway
     implementation 'org.flywaydb:flyway-core'
@@ -72,7 +68,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
-//    testImplementation 'org.testcontainers:mongodb'
     testImplementation 'org.testcontainers:mysql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
