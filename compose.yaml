@@ -1,13 +1,4 @@
 services:
-  mongodb:
-    image: 'mongo:6.0'
-    container_name: 'mongo-db'
-    environment:
-      - 'MONGO_INITDB_DATABASE=csphinx'
-      - 'MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}'
-      - 'MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}'
-    ports:
-      - '27017:27017'
   mysql:
     image: 'mysql:8.0'
     container_name: 'mysql-db'
