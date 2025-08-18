@@ -22,7 +22,6 @@ spring:
         use_sql_comments: true
     hibernate:
       ddl-auto: none
-    show-sql: true
     open-in-view: false
 
 grade:
@@ -32,8 +31,4 @@ logging:
   level:
     org:
       hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+        SQL: ${LOG_LEVEL:INFO}
