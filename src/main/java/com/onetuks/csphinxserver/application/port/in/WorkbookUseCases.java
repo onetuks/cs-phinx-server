@@ -13,6 +13,8 @@ public interface WorkbookUseCases {
 
   Page<Workbook> searchAllWorkbooks(Pageable pageable);
 
+  Page<Workbook> searchAllWorkbooksWithKeyword(String keyword, Pageable pageable);
+
   void editWorkbook(long workbookId, WorkbookCommand command);
 
   void removeWorkbook(long workbookId);

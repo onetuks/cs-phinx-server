@@ -60,6 +60,13 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   }
 
   @Override
+  public Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable) {
+    return workbookRepository
+        .findByTitleContainingIgnoreCase(keyword, pageable)
+        .map(workbookConverter::toDomain);
+  }
+
+  @Override
   public void update(Workbook workbook) {
     WorkbookEntity workbookEntity = workbookRepository.save(workbookConverter.toEntity(workbook));
     workbook

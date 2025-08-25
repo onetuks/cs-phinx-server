@@ -14,6 +14,8 @@ public interface WorkbookPort {
 
   Page<Workbook> readAll(Pageable pageable);
 
+  Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable);
+
   void update(Workbook workbook);
 
   void delete(long workbookId);

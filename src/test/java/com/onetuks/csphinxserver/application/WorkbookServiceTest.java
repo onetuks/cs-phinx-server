@@ -40,7 +40,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 추가한다.")
-  void addCollectionTest() {
+  void addWorkbookTest() {
     // Given
     WorkbookCommand command =
         createWorkbookCommand(problems.get(1).problemId(), problems.get(2).problemId());
@@ -61,7 +61,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 상세 조회한다.")
-  void searchCollectionTest() {
+  void searchWorkbookTest() {
     // Given
     Long workbookId = workbook.workbookId();
 
@@ -81,7 +81,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 전체 조회한다.")
-  void searchAllCollectionsTest() {
+  void searchAllWorkbooksTest() {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
     List<Workbook> workbooks =
@@ -110,8 +110,42 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
   }
 
   @Test
+  @DisplayName("모음집을 키워드로 조회한다.")
+  void searchAllWorkbooksWithKeywordTest() {
+    // Given
+    String keyword = "면접";
+    Pageable pageable = PageRequest.of(0, 10);
+    List<Workbook> workbooks =
+        IntStream.range(0, 3)
+            .mapToObj(
+                i ->
+                    workbookService.addWorkbook(
+                        createWorkbookCommand(
+                            problems.getFirst().problemId(),
+                            problems.get(1).problemId(),
+                            problems.getLast().problemId())))
+            .toList();
+    long expectedSize =
+        workbooks.stream().filter(workbook -> workbook.title().contains(keyword)).count();
+
+    // When
+    Page<Workbook> results = workbookService.searchAllWorkbooksWithKeyword(keyword, pageable);
+
+    // Then
+    assertThat(results)
+        .hasSizeGreaterThanOrEqualTo((int) expectedSize)
+        .allSatisfy(
+            result -> {
+              assertThat(result.workbookId()).isNotNull();
+              assertThat(result.title()).isNotBlank();
+              assertThat(result.title()).contains(keyword);
+              assertThat(result.collectionType()).isInstanceOf(CollectionType.class);
+            });
+  }
+
+  @Test
   @DisplayName("모음집을 수정한다.")
-  void editCollectionTest() {
+  void editWorkbookTest() {
     // Given
     WorkbookCommand command =
         createWorkbookCommand(problems.getFirst().problemId(), problems.getLast().problemId());
@@ -133,7 +167,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 삭제한다.")
-  void removeCollectionTest() {
+  void removeWorkbookTest() {
     // Given
     Long workbookId = workbook.workbookId();
 

@@ -49,6 +49,11 @@ public class WorkbookService implements WorkbookUseCases {
   }
 
   @Override
+  public Page<Workbook> searchAllWorkbooksWithKeyword(String keyword, Pageable pageable) {
+    return workbookPort.readAllContainingKeyword(keyword, pageable);
+  }
+
+  @Override
   @Transactional
   public void editWorkbook(long workbookId, WorkbookCommand command) {
     workbookPort.update(

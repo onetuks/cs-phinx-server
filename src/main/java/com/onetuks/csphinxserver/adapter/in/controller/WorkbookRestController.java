@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -44,9 +45,17 @@ public class WorkbookRestController {
     return ResponseEntity.ok(workbook);
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(params = "!keyword", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<Workbook>> getWorkbooks(@PageableDefault Pageable pageable) {
     Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooks(pageable);
+
+    return ResponseEntity.ok(workbooks);
+  }
+
+  @GetMapping(params = "keyword", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Page<Workbook>> getWorkbooksWithKeyword(
+      @RequestParam("keyword") String keyword, @PageableDefault Pageable pageable) {
+    Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooksWithKeyword(keyword, pageable);
 
     return ResponseEntity.ok(workbooks);
   }
