@@ -2,6 +2,7 @@ package com.onetuks.csphinxserver.adapter.in.controller;
 
 import com.onetuks.csphinxserver.application.command.WorkbookCommand;
 import com.onetuks.csphinxserver.application.port.in.WorkbookUseCases;
+import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import java.net.URI;
 import org.springframework.data.domain.Page;
@@ -46,16 +47,21 @@ public class WorkbookRestController {
   }
 
   @GetMapping(params = "!keyword", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<Workbook>> getWorkbooks(@PageableDefault Pageable pageable) {
-    Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooks(pageable);
+  public ResponseEntity<Page<Workbook>> getWorkbooks(
+      @RequestParam("collection-type") CollectionType collectionType,
+      @PageableDefault Pageable pageable) {
+    Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooks(collectionType, pageable);
 
     return ResponseEntity.ok(workbooks);
   }
 
   @GetMapping(params = "keyword", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<Workbook>> getWorkbooksWithKeyword(
-      @RequestParam("keyword") String keyword, @PageableDefault Pageable pageable) {
-    Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooksWithKeyword(keyword, pageable);
+      @RequestParam("keyword") String keyword,
+      @RequestParam("collection-type") CollectionType collectionType,
+      @PageableDefault Pageable pageable) {
+    Page<Workbook> workbooks =
+        workbookUseCases.searchAllWorkbooksWithKeyword(keyword, collectionType, pageable);
 
     return ResponseEntity.ok(workbooks);
   }

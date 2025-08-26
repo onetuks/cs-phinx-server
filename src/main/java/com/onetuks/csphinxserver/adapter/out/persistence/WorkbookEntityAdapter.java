@@ -7,6 +7,7 @@ import com.onetuks.csphinxserver.adapter.out.persistence.entity.WorkbookEntity;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.ProblemWorkbookJpaRepository;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.WorkbookEntityJpaRepository;
 import com.onetuks.csphinxserver.application.port.out.WorkbookPort;
+import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.util.List;
@@ -60,9 +61,24 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   }
 
   @Override
+  public Page<Workbook> readAll(CollectionType collectionType, Pageable pageable) {
+    return workbookRepository
+        .findAllByCollectionType(collectionType, pageable)
+        .map(workbookConverter::toDomain);
+  }
+
+  @Override
   public Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable) {
     return workbookRepository
-        .findByTitleContainingIgnoreCase(keyword, pageable)
+        .findAllByTitleContainingIgnoreCase(keyword, pageable)
+        .map(workbookConverter::toDomain);
+  }
+
+  @Override
+  public Page<Workbook> readAllContainingKeyword(
+      String keyword, CollectionType collectionType, Pageable pageable) {
+    return workbookRepository
+        .findAllByTitleContainingIgnoreCaseAndCollectionType(keyword, collectionType, pageable)
         .map(workbookConverter::toDomain);
   }
 

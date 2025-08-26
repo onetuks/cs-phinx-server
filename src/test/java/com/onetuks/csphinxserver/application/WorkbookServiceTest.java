@@ -96,11 +96,44 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
             .toList();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooks(null, pageable);
 
     // Then
     assertThat(results)
         .hasSizeGreaterThanOrEqualTo(workbooks.size())
+        .allSatisfy(
+            result -> {
+              assertThat(result.workbookId()).isNotNull();
+              assertThat(result.title()).isNotBlank();
+              assertThat(result.collectionType()).isInstanceOf(CollectionType.class);
+            });
+  }
+
+  @Test
+  @DisplayName("선택한 모음집 종류에 해당하는 모음집을 전체 조회한다.")
+  void searchAllWorkbooksTest_WithCollectionType() {
+    // Given
+    Pageable pageable = PageRequest.of(0, 10);
+    List<Workbook> workbooks =
+        IntStream.range(0, 3)
+            .mapToObj(
+                i ->
+                    workbookService.addWorkbook(
+                        createWorkbookCommand(
+                            problems.getFirst().problemId(),
+                            problems.get(1).problemId(),
+                            problems.getLast().problemId())))
+            .toList();
+    CollectionType collectionType = workbooks.getFirst().collectionType();
+    long expectedSize =
+        workbooks.stream().filter(workbook -> collectionType == workbook.collectionType()).count();
+
+    // When
+    Page<Workbook> results = workbookService.searchAllWorkbooks(collectionType, pageable);
+
+    // Then
+    assertThat(results)
+        .hasSizeGreaterThanOrEqualTo((int) expectedSize)
         .allSatisfy(
             result -> {
               assertThat(result.workbookId()).isNotNull();
@@ -129,7 +162,46 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
         workbooks.stream().filter(workbook -> workbook.title().contains(keyword)).count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooksWithKeyword(keyword, pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooksWithKeyword(keyword, null, pageable);
+
+    // Then
+    assertThat(results)
+        .hasSizeGreaterThanOrEqualTo((int) expectedSize)
+        .allSatisfy(
+            result -> {
+              assertThat(result.workbookId()).isNotNull();
+              assertThat(result.title()).isNotBlank();
+              assertThat(result.title()).contains(keyword);
+              assertThat(result.collectionType()).isInstanceOf(CollectionType.class);
+            });
+  }
+
+  @Test
+  @DisplayName("선택한 모음집 종류에 해당하는 모음집을 키워드로 조회한다.")
+  void searchAllWorkbooksWithKeywordTest_WithCollectionType() {
+    // Given
+    String keyword = "면접";
+    Pageable pageable = PageRequest.of(0, 10);
+    List<Workbook> workbooks =
+        IntStream.range(0, 3)
+            .mapToObj(
+                i ->
+                    workbookService.addWorkbook(
+                        createWorkbookCommand(
+                            problems.getFirst().problemId(),
+                            problems.get(1).problemId(),
+                            problems.getLast().problemId())))
+            .toList();
+    CollectionType collectionType = workbooks.getFirst().collectionType();
+    long expectedSize =
+        workbooks.stream()
+            .filter(workbook -> workbook.title().contains(keyword))
+            .filter(workbook -> collectionType == workbook.collectionType())
+            .count();
+
+    // When
+    Page<Workbook> results =
+        workbookService.searchAllWorkbooksWithKeyword(keyword, collectionType, pageable);
 
     // Then
     assertThat(results)
