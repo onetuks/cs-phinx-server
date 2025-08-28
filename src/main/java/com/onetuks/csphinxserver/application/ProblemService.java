@@ -51,9 +51,7 @@ public class ProblemService implements ProblemUseCases {
     return new PageImpl<>(
         answerType == null
             ? problemPort.readAll(pageable).toList()
-            : answerPort.readAll(answerType).stream()
-                .map(answer -> answer.problem())
-                .toList());
+            : answerPort.readAll(answerType).stream().map(answer -> answer.problem()).toList());
   }
 
   @Override
