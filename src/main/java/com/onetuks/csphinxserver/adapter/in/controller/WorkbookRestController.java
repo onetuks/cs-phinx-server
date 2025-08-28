@@ -48,7 +48,7 @@ public class WorkbookRestController {
 
   @GetMapping(params = "!keyword", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<Workbook>> getWorkbooks(
-      @RequestParam("collection-type") CollectionType collectionType,
+      @RequestParam(value = "collection-type", required = false) CollectionType collectionType,
       @PageableDefault Pageable pageable) {
     Page<Workbook> workbooks = workbookUseCases.searchAllWorkbooks(collectionType, pageable);
 
@@ -58,7 +58,7 @@ public class WorkbookRestController {
   @GetMapping(params = "keyword", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<Workbook>> getWorkbooksWithKeyword(
       @RequestParam("keyword") String keyword,
-      @RequestParam("collection-type") CollectionType collectionType,
+      @RequestParam(value = "collection-type", required = false) CollectionType collectionType,
       @PageableDefault Pageable pageable) {
     Page<Workbook> workbooks =
         workbookUseCases.searchAllWorkbooksWithKeyword(keyword, collectionType, pageable);

@@ -4,6 +4,7 @@ import com.onetuks.csphinxserver.application.command.ProblemCommand;
 import com.onetuks.csphinxserver.application.port.in.ProblemUseCases;
 import com.onetuks.csphinxserver.application.port.out.AnswerPort;
 import com.onetuks.csphinxserver.application.port.out.ProblemPort;
+import com.onetuks.csphinxserver.domain.answer.Answer;
 import com.onetuks.csphinxserver.domain.answer.AnswerType;
 import com.onetuks.csphinxserver.domain.problem.Problem;
 import java.time.LocalDateTime;
@@ -51,7 +52,7 @@ public class ProblemService implements ProblemUseCases {
     return new PageImpl<>(
         answerType == null
             ? problemPort.readAll(pageable).toList()
-            : answerPort.readAll(answerType).stream().map(answer -> answer.problem()).toList());
+            : answerPort.readAll(answerType).stream().map(Answer::problem).toList());
   }
 
   @Override

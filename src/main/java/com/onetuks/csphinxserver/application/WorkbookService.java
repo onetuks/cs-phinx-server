@@ -55,6 +55,7 @@ public class WorkbookService implements WorkbookUseCases {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Page<Workbook> searchAllWorkbooksWithKeyword(
       String keyword, CollectionType collectionType, Pageable pageable) {
     if (Objects.isNull(collectionType)) {

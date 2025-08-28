@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProblemWorkbookJpaRepository extends JpaRepository<ProblemWorkbookEntity, Long> {
 
-  List<ProblemWorkbookEntity> findByWorkbookEntityWorkbookId(Long problemId);
+  List<ProblemWorkbookEntity> findByWorkbookEntityWorkbookId(Long workbookId);
 }

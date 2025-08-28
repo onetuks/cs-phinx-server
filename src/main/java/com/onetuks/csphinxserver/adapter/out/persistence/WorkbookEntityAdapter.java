@@ -57,21 +57,21 @@ public class WorkbookEntityAdapter implements WorkbookPort {
 
   @Override
   public Page<Workbook> readAll(Pageable pageable) {
-    return workbookRepository.findAll(pageable).map(workbookConverter::toDomain);
+    return workbookRepository.findAll(pageable).map(this::findWithProblem);
   }
 
   @Override
   public Page<Workbook> readAll(CollectionType collectionType, Pageable pageable) {
     return workbookRepository
         .findAllByCollectionType(collectionType, pageable)
-        .map(workbookConverter::toDomain);
+        .map(this::findWithProblem);
   }
 
   @Override
   public Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable) {
     return workbookRepository
         .findAllByTitleContainingIgnoreCase(keyword, pageable)
-        .map(workbookConverter::toDomain);
+        .map(this::findWithProblem);
   }
 
   @Override
@@ -79,7 +79,7 @@ public class WorkbookEntityAdapter implements WorkbookPort {
       String keyword, CollectionType collectionType, Pageable pageable) {
     return workbookRepository
         .findAllByTitleContainingIgnoreCaseAndCollectionType(keyword, collectionType, pageable)
-        .map(workbookConverter::toDomain);
+        .map(this::findWithProblem);
   }
 
   @Override
@@ -97,5 +97,13 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   @Override
   public void delete(long workbookId) {
     workbookRepository.deleteById(workbookId);
+  }
+
+  private Workbook findWithProblem(WorkbookEntity workbookEntity) {
+    return workbookConverter.toDomain(workbookEntity, readProblemWorkbookEntity(workbookEntity));
+  }
+
+  private List<ProblemWorkbookEntity> readProblemWorkbookEntity(WorkbookEntity workbookEntity) {
+    return problemWorkbookRepository.findByWorkbookEntityWorkbookId(workbookEntity.getWorkbookId());
   }
 }
