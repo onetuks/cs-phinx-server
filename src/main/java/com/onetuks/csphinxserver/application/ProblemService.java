@@ -52,7 +52,7 @@ public class ProblemService implements ProblemUseCases {
         answerType == null
             ? problemPort.readAll(pageable).toList()
             : answerPort.readAll(answerType).stream()
-                .map(answer -> searchProblem(answer.problem().problemId()))
+                .map(answer -> answer.problem())
                 .toList());
   }
 

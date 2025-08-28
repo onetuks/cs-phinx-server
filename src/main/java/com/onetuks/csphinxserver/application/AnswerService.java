@@ -51,6 +51,7 @@ public class AnswerService implements AnswerUseCases {
   }
 
   @Override
+  @Transactional
   public void removeAnswer(long answerId) {
     answerPort.delete(answerId);
   }

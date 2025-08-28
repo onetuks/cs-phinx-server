@@ -60,7 +60,7 @@ public class GlobalExceptionRestHandler {
 
   /** 유효하지 않은 인자 문제 */
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<ErrorResponse> handleAllException(IllegalArgumentException e) {
+  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
     logging(e);
 
     final ErrorResponse response =
@@ -71,7 +71,7 @@ public class GlobalExceptionRestHandler {
 
   /** 유효하지 않은 객체 상태 문제 */
   @ExceptionHandler(IllegalStateException.class)
-  public ResponseEntity<ErrorResponse> handleAllException(IllegalStateException e) {
+  public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
     logging(e);
 
     final ErrorResponse response = ErrorResponse.of(ErrorCode.ILLEGAL_STATE_ERROR, e.getMessage());
