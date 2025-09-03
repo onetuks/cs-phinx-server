@@ -46,23 +46,18 @@ public class WorkbookService implements WorkbookUseCases {
 
   @Override
   @Transactional(readOnly = true)
-  public Page<Workbook> searchAllWorkbooks(CollectionType collectionType, Pageable pageable) {
-    if (Objects.isNull(collectionType)) {
-      return workbookPort.readAll(pageable);
-    }
-
-    return workbookPort.readAll(collectionType, pageable);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Page<Workbook> searchAllWorkbooksWithKeyword(
+  public Page<Workbook> searchAllWorkbooks(
       String keyword, CollectionType collectionType, Pageable pageable) {
-    if (Objects.isNull(collectionType)) {
-      return workbookPort.readAllContainingKeyword(keyword, pageable);
+    if (Objects.isNull(keyword)) {
+      if (Objects.isNull(collectionType)) {
+        return workbookPort.readAll(pageable);
+      }
+      return workbookPort.readAll(collectionType, pageable);
+    } else if (Objects.isNull(collectionType)) {
+      return workbookPort.readAll(keyword, pageable);
     }
 
-    return workbookPort.readAllContainingKeyword(keyword, collectionType, pageable);
+    return workbookPort.readAll(keyword, collectionType, pageable);
   }
 
   @Override

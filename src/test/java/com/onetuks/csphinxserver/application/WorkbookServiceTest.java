@@ -96,7 +96,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
             .toList();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(null, pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooks(null, null, pageable);
 
     // Then
     assertThat(results)
@@ -129,7 +129,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
         workbooks.stream().filter(workbook -> collectionType == workbook.collectionType()).count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(collectionType, pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooks(null, collectionType, pageable);
 
     // Then
     assertThat(results)
@@ -162,7 +162,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
         workbooks.stream().filter(workbook -> workbook.title().contains(keyword)).count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooksWithKeyword(keyword, null, pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooks(keyword, null, pageable);
 
     // Then
     assertThat(results)
@@ -200,8 +200,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
             .count();
 
     // When
-    Page<Workbook> results =
-        workbookService.searchAllWorkbooksWithKeyword(keyword, collectionType, pageable);
+    Page<Workbook> results = workbookService.searchAllWorkbooks(keyword, collectionType, pageable);
 
     // Then
     assertThat(results)

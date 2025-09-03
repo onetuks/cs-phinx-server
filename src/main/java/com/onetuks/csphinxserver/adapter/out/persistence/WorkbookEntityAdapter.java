@@ -68,15 +68,14 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   }
 
   @Override
-  public Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable) {
+  public Page<Workbook> readAll(String keyword, Pageable pageable) {
     return workbookRepository
         .findAllByTitleContainingIgnoreCase(keyword, pageable)
         .map(this::findWithProblem);
   }
 
   @Override
-  public Page<Workbook> readAllContainingKeyword(
-      String keyword, CollectionType collectionType, Pageable pageable) {
+  public Page<Workbook> readAll(String keyword, CollectionType collectionType, Pageable pageable) {
     return workbookRepository
         .findAllByTitleContainingIgnoreCaseAndCollectionType(keyword, collectionType, pageable)
         .map(this::findWithProblem);

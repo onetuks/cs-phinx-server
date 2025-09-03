@@ -17,10 +17,9 @@ public interface WorkbookPort {
 
   Page<Workbook> readAll(CollectionType collectionType, Pageable pageable);
 
-  Page<Workbook> readAllContainingKeyword(String keyword, Pageable pageable);
+  Page<Workbook> readAll(String keyword, Pageable pageable);
 
-  Page<Workbook> readAllContainingKeyword(
-      String keyword, CollectionType collectionType, Pageable pageable);
+  Page<Workbook> readAll(String keyword, CollectionType collectionType, Pageable pageable);
 
   void update(Workbook workbook);
 
