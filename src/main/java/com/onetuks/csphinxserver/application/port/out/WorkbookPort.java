@@ -13,12 +13,6 @@ public interface WorkbookPort {
 
   Workbook read(long workbookId);
 
-  Page<Workbook> readAll(Pageable pageable);
-
-  Page<Workbook> readAll(CollectionType collectionType, Pageable pageable);
-
-  Page<Workbook> readAll(String keyword, Pageable pageable);
-
   Page<Workbook> readAll(String keyword, CollectionType collectionType, Pageable pageable);
 
   void update(Workbook workbook);

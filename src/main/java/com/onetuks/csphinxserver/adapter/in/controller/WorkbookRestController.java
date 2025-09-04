@@ -51,8 +51,7 @@ public class WorkbookRestController {
       @RequestParam(name = "keyword", required = false) String keyword,
       @RequestParam(name = "collection-type", required = false) CollectionType collectionType,
       @PageableDefault Pageable pageable) {
-    Page<Workbook> workbooks =
-        workbookUseCases.searchAllWorkbooks(keyword, collectionType, pageable);
+    Page<Workbook> workbooks = workbookUseCases.searchWorkbooks(keyword, collectionType, pageable);
 
     return ResponseEntity.ok(workbooks);
   }

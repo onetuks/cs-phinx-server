@@ -81,7 +81,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 전체 조회한다.")
-  void searchAllWorkbooksTest() {
+  void searchWorkbooksTest() {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
     List<Workbook> workbooks =
@@ -96,7 +96,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
             .toList();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(null, null, pageable);
+    Page<Workbook> results = workbookService.searchWorkbooks(null, null, pageable);
 
     // Then
     assertThat(results)
@@ -111,7 +111,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("선택한 모음집 종류에 해당하는 모음집을 전체 조회한다.")
-  void searchAllWorkbooksTest_WithCollectionType() {
+  void searchWorkbooksTest_WithCollectionType() {
     // Given
     Pageable pageable = PageRequest.of(0, 10);
     List<Workbook> workbooks =
@@ -129,7 +129,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
         workbooks.stream().filter(workbook -> collectionType == workbook.collectionType()).count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(null, collectionType, pageable);
+    Page<Workbook> results = workbookService.searchWorkbooks(null, collectionType, pageable);
 
     // Then
     assertThat(results)
@@ -144,7 +144,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("모음집을 키워드로 조회한다.")
-  void searchAllWorkbooksWithKeywordTest() {
+  void searchWorkbooksWithKeywordTest() {
     // Given
     String keyword = "면접";
     Pageable pageable = PageRequest.of(0, 10);
@@ -162,7 +162,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
         workbooks.stream().filter(workbook -> workbook.title().contains(keyword)).count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(keyword, null, pageable);
+    Page<Workbook> results = workbookService.searchWorkbooks(keyword, null, pageable);
 
     // Then
     assertThat(results)
@@ -178,7 +178,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
 
   @Test
   @DisplayName("선택한 모음집 종류에 해당하는 모음집을 키워드로 조회한다.")
-  void searchAllWorkbooksWithKeywordTest_WithCollectionType() {
+  void searchWorkbooksWithKeywordTest_WithCollectionType() {
     // Given
     String keyword = "면접";
     Pageable pageable = PageRequest.of(0, 10);
@@ -200,7 +200,7 @@ class WorkbookServiceTest extends CsPhinxServerApplicationTests {
             .count();
 
     // When
-    Page<Workbook> results = workbookService.searchAllWorkbooks(keyword, collectionType, pageable);
+    Page<Workbook> results = workbookService.searchWorkbooks(keyword, collectionType, pageable);
 
     // Then
     assertThat(results)

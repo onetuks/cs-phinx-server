@@ -12,8 +12,7 @@ public interface WorkbookUseCases {
 
   Workbook searchWorkbook(long workbookId);
 
-  Page<Workbook> searchAllWorkbooks(
-      String keyword, CollectionType collectionType, Pageable pageable);
+  Page<Workbook> searchWorkbooks(String keyword, CollectionType collectionType, Pageable pageable);
 
   void editWorkbook(long workbookId, WorkbookCommand command);
 

@@ -7,7 +7,6 @@ import com.onetuks.csphinxserver.application.port.out.WorkbookPort;
 import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,17 +45,8 @@ public class WorkbookService implements WorkbookUseCases {
 
   @Override
   @Transactional(readOnly = true)
-  public Page<Workbook> searchAllWorkbooks(
+  public Page<Workbook> searchWorkbooks(
       String keyword, CollectionType collectionType, Pageable pageable) {
-    if (Objects.isNull(keyword)) {
-      if (Objects.isNull(collectionType)) {
-        return workbookPort.readAll(pageable);
-      }
-      return workbookPort.readAll(collectionType, pageable);
-    } else if (Objects.isNull(collectionType)) {
-      return workbookPort.readAll(keyword, pageable);
-    }
-
     return workbookPort.readAll(keyword, collectionType, pageable);
   }
 
