@@ -1,5 +1,6 @@
 package com.onetuks.csphinxserver.application.port.out;
 
+import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ public interface WorkbookPort {
 
   Workbook read(long workbookId);
 
-  Page<Workbook> readAll(Pageable pageable);
+  Page<Workbook> readAll(String keyword, CollectionType collectionType, Pageable pageable);
 
   void update(Workbook workbook);
 

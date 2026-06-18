@@ -247,12 +247,12 @@ class ArchitectureTest {
     @DisplayName("domain 패키지는 어떤 패키지도 의존하지 않는다.")
     void domain_DependOn_Test() {
       ArchRule rule =
-          ArchRuleDefinition.noClasses()
+          ArchRuleDefinition.classes()
               .that()
               .resideInAPackage("..domain..")
               .should()
               .onlyDependOnClassesThat()
-              .resideInAnyPackage("..lombok..")
+              .resideInAnyPackage("..domain..", "java..", "lombok..", "..global..")
               .allowEmptyShould(true);
 
       rule.check(javaClasses);

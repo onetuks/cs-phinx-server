@@ -6,7 +6,9 @@ import com.onetuks.csphinxserver.adapter.out.persistence.entity.ProblemWorkbookE
 import com.onetuks.csphinxserver.adapter.out.persistence.entity.WorkbookEntity;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.ProblemWorkbookJpaRepository;
 import com.onetuks.csphinxserver.adapter.out.persistence.repository.WorkbookEntityJpaRepository;
+import com.onetuks.csphinxserver.adapter.out.persistence.repository.WorkbookEntityQueryDslRepository;
 import com.onetuks.csphinxserver.application.port.out.WorkbookPort;
+import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import com.onetuks.csphinxserver.global.exception.NoSuchEntityException;
 import java.util.List;
@@ -19,16 +21,19 @@ public class WorkbookEntityAdapter implements WorkbookPort {
 
   private final WorkbookEntityJpaRepository workbookRepository;
   private final ProblemWorkbookJpaRepository problemWorkbookRepository;
+  private final WorkbookEntityQueryDslRepository workbookQDSLRepository;
   private final WorkbookConverter workbookConverter;
   private final ProblemConverter problemConverter;
 
   public WorkbookEntityAdapter(
       WorkbookEntityJpaRepository workbookRepository,
       ProblemWorkbookJpaRepository problemWorkbookRepository,
+      WorkbookEntityQueryDslRepository workbookQDSLRepository,
       WorkbookConverter workbookConverter,
       ProblemConverter problemConverter) {
     this.workbookRepository = workbookRepository;
     this.problemWorkbookRepository = problemWorkbookRepository;
+    this.workbookQDSLRepository = workbookQDSLRepository;
     this.workbookConverter = workbookConverter;
     this.problemConverter = problemConverter;
   }
@@ -55,8 +60,10 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   }
 
   @Override
-  public Page<Workbook> readAll(Pageable pageable) {
-    return workbookRepository.findAll(pageable).map(workbookConverter::toDomain);
+  public Page<Workbook> readAll(String keyword, CollectionType collectionType, Pageable pageable) {
+    return workbookQDSLRepository
+        .findAll(keyword, collectionType, pageable)
+        .map(this::findWithProblem);
   }
 
   @Override
@@ -74,5 +81,13 @@ public class WorkbookEntityAdapter implements WorkbookPort {
   @Override
   public void delete(long workbookId) {
     workbookRepository.deleteById(workbookId);
+  }
+
+  private Workbook findWithProblem(WorkbookEntity workbookEntity) {
+    return workbookConverter.toDomain(workbookEntity, readProblemWorkbookEntity(workbookEntity));
+  }
+
+  private List<ProblemWorkbookEntity> readProblemWorkbookEntity(WorkbookEntity workbookEntity) {
+    return problemWorkbookRepository.findByWorkbookEntityWorkbookId(workbookEntity.getWorkbookId());
   }
 }

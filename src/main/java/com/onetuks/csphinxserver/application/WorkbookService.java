@@ -4,6 +4,7 @@ import com.onetuks.csphinxserver.application.command.WorkbookCommand;
 import com.onetuks.csphinxserver.application.port.in.WorkbookUseCases;
 import com.onetuks.csphinxserver.application.port.out.ProblemPort;
 import com.onetuks.csphinxserver.application.port.out.WorkbookPort;
+import com.onetuks.csphinxserver.domain.workbook.CollectionType;
 import com.onetuks.csphinxserver.domain.workbook.Workbook;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
@@ -44,8 +45,9 @@ public class WorkbookService implements WorkbookUseCases {
 
   @Override
   @Transactional(readOnly = true)
-  public Page<Workbook> searchAllWorkbooks(Pageable pageable) {
-    return workbookPort.readAll(pageable);
+  public Page<Workbook> searchWorkbooks(
+      String keyword, CollectionType collectionType, Pageable pageable) {
+    return workbookPort.readAll(keyword, collectionType, pageable);
   }
 
   @Override
